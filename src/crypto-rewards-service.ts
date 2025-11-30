@@ -1,7 +1,16 @@
 /**
  * Crypto Rewards Service
- * Handles conversion of Aura tokens to real-world crypto (USDC/Base chain)
- * and manages on-chain rewards minting
+ * Handles conversion of Aura tokens to real-world crypto (USDC) on multiple blockchains
+ * Primary: Base Chain (Optimism L2) - Fast, cheap, Ethereum-compatible
+ * Secondary: Optimism, Arbitrum, Polygon
+ * Optional (Testnet): ThirdWeb Testnet - Development and testing
+ * 
+ * USDC Contract Addresses:
+ * - Base: 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913
+ * - Optimism: 0x0b2C639c533813f4Aa9D7837CaF62653d097Ff85
+ * - Arbitrum: 0xaf88d065e77c8cC2239327C5EDb3A432268e5831
+ * - Polygon: 0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174
+ * - ThirdWeb Testnet: 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 (test USDC)
  */
 
 export interface CryptoReward {
@@ -9,6 +18,7 @@ export interface CryptoReward {
   userId: string;
   auraTokens: number;
   usdcAmount: number;
+  blockchain: 'base' | 'optimism' | 'arbitrum' | 'polygon' | 'thirdweb-testnet';
   transactionHash?: string;
   status: 'pending' | 'processing' | 'completed' | 'failed';
   walletAddress: string;
@@ -22,13 +32,71 @@ export interface ConversionRate {
   lastUpdated: string;
 }
 
+export interface BlockchainConfig {
+  name: string;
+  chainId: number;
+  rpcUrl: string;
+  usdc: string;
+  explorer: string;
+  nativeCoin: string;
+  isTestnet?: boolean;
+}
+
 /**
  * Crypto Rewards Service
- * Integrates with Base chain for USDC rewards
+ * Integrates with Base chain (primary), multiple EVM-compatible chains, and ThirdWeb testnet
  */
 export class CryptoRewardsService {
-  private contractAddress = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'; // USDC on Base
-  private baseChainId = 8453;
+  // Blockchain configurations - Base is primary (fastest, cheapest)
+  private blockchains: Record<string, BlockchainConfig> = {
+    base: {
+      name: 'Base',
+      chainId: 8453,
+      rpcUrl: 'https://mainnet.base.org',
+      usdc: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+      explorer: 'https://basescan.org',
+      nativeCoin: 'ETH',
+      isTestnet: false
+    },
+    optimism: {
+      name: 'Optimism',
+      chainId: 10,
+      rpcUrl: 'https://mainnet.optimism.io',
+      usdc: '0x0b2C639c533813f4Aa9D7837CaF62653d097Ff85',
+      explorer: 'https://optimistic.etherscan.io',
+      nativeCoin: 'ETH',
+      isTestnet: false
+    },
+    arbitrum: {
+      name: 'Arbitrum One',
+      chainId: 42161,
+      rpcUrl: 'https://arb1.arbitrum.io/rpc',
+      usdc: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
+      explorer: 'https://arbiscan.io',
+      nativeCoin: 'ETH',
+      isTestnet: false
+    },
+    polygon: {
+      name: 'Polygon',
+      chainId: 137,
+      rpcUrl: 'https://polygon-rpc.com',
+      usdc: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
+      explorer: 'https://polygonscan.com',
+      nativeCoin: 'MATIC',
+      isTestnet: false
+    },
+    'thirdweb-testnet': {
+      name: 'ThirdWeb Testnet',
+      chainId: 421614, // Arbitrum Sepolia (ThirdWeb testnet base)
+      rpcUrl: 'https://sepolia.arbitrum.io/rpc',
+      usdc: '0x86aA74b23fc54f0Ca71ecaF82a0055bbc77cBA6f', // Test USDC on Arbitrum Sepolia
+      explorer: 'https://sepolia.arbiscan.io',
+      nativeCoin: 'ETH',
+      isTestnet: true
+    }
+  };
+
+  private primaryBlockchain = 'base'; // Base chain is fastest and cheapest for rewards
   private conversionRate: ConversionRate = {
     auraToUsdc: 0.1, // 1 AURA = 0.1 USDC (10 cents)
     lastUpdated: new Date().toISOString()
@@ -46,7 +114,7 @@ export class CryptoRewardsService {
     userId: string,
     auraTokens: number,
     walletAddress: string,
-    platform: string = 'base'
+    blockchain: 'base' | 'optimism' | 'arbitrum' | 'polygon' = 'base'
   ): Promise<CryptoReward | null> {
     try {
       if (!this.isValidWallet(walletAddress)) {
@@ -60,10 +128,11 @@ export class CryptoRewardsService {
         userId,
         auraTokens,
         usdcAmount,
+        blockchain,
         status: 'pending',
         walletAddress,
         createdAt: new Date().toISOString(),
-        metadata: { platform }
+        metadata: { blockchain }
       };
 
       await this.kv.put(
@@ -243,15 +312,15 @@ export class CryptoRewardsService {
     // USDC transfer function signature: transfer(address to, uint256 amount)
     // Function selector: 0xa9059cbb
     const selector = 'a9059cbb';
-    
     // Pad wallet address
     const paddedAddress = walletAddress.replace('0x', '').padStart(64, '0');
     
     // Convert amount to Wei (6 decimals for USDC)
     const amountInWei = (usdcAmount * 1e6).toString(16).padStart(64, '0');
 
+    const blockchain = this.blockchains[this.primaryBlockchain];
     return {
-      to: this.contractAddress,
+      to: blockchain.usdc,
       data: `0x${selector}${paddedAddress}${amountInWei}`,
       value: '0'
     };
