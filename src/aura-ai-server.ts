@@ -1699,151 +1699,152 @@ export class AuraAiServer extends McpHonoServerDO<Env> {
         }
         .sidebar-header {
             display: flex; align-items: center; gap: 0.75rem;
-            margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);
+            margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);
         }
         .logo-icon { font-size: 1.8rem; }
         .logo-text {
-            font-size: 1.3rem; font-weight: bold;
+            font-size: 1.3rem; font-weight: 600;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
         .wallet-info {
-            background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary);
-            border-radius: 0.75rem; padding: 1rem; margin-bottom: 2rem; font-size: 0.85rem;
+            background: rgba(99, 102, 241, 0.08); border: 0.5px solid rgba(99, 102, 241, 0.3);
+            border-radius: 0.5rem; padding: 0.75rem; margin-bottom: 1.5rem; font-size: 0.85rem;
         }
-        .wallet-label { color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .wallet-label { color: var(--text-secondary); margin-bottom: 0.4rem; font-size: 0.75rem; }
         .wallet-address {
             word-break: break-all; color: var(--primary); font-weight: 500;
-            font-size: 0.75rem; font-family: monospace;
+            font-size: 0.7rem; font-family: monospace;
         }
         .balance-box {
-            background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success);
-            border-radius: 0.75rem; padding: 1rem; margin-bottom: 1.5rem; text-align: center;
+            background: rgba(16, 185, 129, 0.08); border: 0.5px solid rgba(16, 185, 129, 0.3);
+            border-radius: 0.5rem; padding: 0.75rem; margin-bottom: 1.5rem; text-align: center;
         }
-        .balance-label { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem; }
-        .balance-value { font-size: 1.8rem; font-weight: bold; color: var(--success); }
-        .nav-section { margin-bottom: 2rem; }
+        .balance-label { color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.02em; }
+        .balance-value { font-size: 1.6rem; font-weight: 600; color: var(--success); }
+        .nav-section { margin-bottom: 1.5rem; }
         .nav-title {
-            font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary);
-            padding: 0.75rem 0.5rem; font-weight: 600; letter-spacing: 0.05em;
+            font-size: 0.7rem; text-transform: uppercase; color: var(--text-secondary);
+            padding: 0.5rem 0.5rem; font-weight: 600; letter-spacing: 0.08em;
         }
         .nav-btn {
-            width: 100%; padding: 0.75rem 1rem; margin-bottom: 0.5rem;
-            background: transparent; border: 1px solid transparent; border-radius: 0.5rem;
+            width: 100%; padding: 0.6rem 0.75rem; margin-bottom: 0.4rem;
+            background: transparent; border: 0.5px solid transparent; border-radius: 0.4rem;
             color: var(--text-secondary); cursor: pointer; text-align: left; font-weight: 500;
-            transition: all 0.2s ease;
+            font-size: 0.9rem; transition: all 0.2s ease;
         }
         .nav-btn:hover {
-            background: rgba(99, 102, 241, 0.1); color: var(--primary); border-color: var(--border);
+            background: rgba(99, 102, 241, 0.12); color: var(--primary); border-color: rgba(99, 102, 241, 0.4);
         }
         .nav-btn.active {
-            background: rgba(99, 102, 241, 0.15); color: var(--primary); border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.2); color: var(--primary); border-color: var(--primary);
         }
         .disconnect-btn {
-            width: 100%; margin-top: auto; padding: 0.75rem;
-            background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger);
-            border-radius: 0.5rem; color: var(--danger); cursor: pointer; font-weight: 500;
-            transition: all 0.2s ease;
+            width: 100%; margin-top: auto; padding: 0.6rem;
+            background: rgba(239, 68, 68, 0.1); border: 0.5px solid rgba(239, 68, 68, 0.4);
+            border-radius: 0.4rem; color: var(--danger); cursor: pointer; font-weight: 500;
+            transition: all 0.2s ease; font-size: 0.9rem;
         }
-        .disconnect-btn:hover { background: rgba(239, 68, 68, 0.2); }
+        .disconnect-btn:hover { background: rgba(239, 68, 68, 0.15); }
         .main-area {
             display: flex; flex-direction: column; overflow: hidden;
         }
         .header-bar {
-            background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--border);
-            padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0, 0, 0, 0.1); border-bottom: 0.5px solid var(--border);
+            padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center;
         }
-        .header-title { font-size: 1.5rem; font-weight: 600; }
-        .header-stats { display: flex; gap: 2rem; }
+        .header-title { font-size: 1.3rem; font-weight: 600; }
+        .header-stats { display: flex; gap: 2rem; font-size: 0.85rem; }
         .stat-item { text-align: center; }
-        .stat-label { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 0.25rem; }
-        .stat-value { font-size: 1.3rem; font-weight: bold; color: var(--primary); }
+        .stat-label { font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 0.25rem; letter-spacing: 0.02em; }
+        .stat-value { font-size: 1.2rem; font-weight: 600; color: var(--primary); }
         .content {
-            flex: 1; display: flex; overflow: hidden; padding: 2rem;
+            flex: 1; display: flex; overflow: hidden; padding: 1.5rem;
         }
         .chat-area {
             flex: 1; display: flex; flex-direction: column; overflow: hidden;
         }
         .messages-container {
-            flex: 1; overflow-y: auto; margin-bottom: 2rem;
-            display: flex; flex-direction: column; gap: 1rem;
+            flex: 1; overflow-y: auto; margin-bottom: 1.5rem;
+            display: flex; flex-direction: column; gap: 0.75rem;
         }
         .message { display: flex; gap: 1rem; animation: slideIn 0.3s ease; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .message.user { justify-content: flex-end; }
         .message-content {
-            max-width: 70%; background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border); border-radius: 1rem; padding: 1rem 1.5rem;
+            max-width: 70%; background: rgba(255, 255, 255, 0.04);
+            border: 0.5px solid var(--border); border-radius: 0.5rem; padding: 0.75rem 1rem;
+            font-size: 0.95rem;
         }
         .message.user .message-content {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
-            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.15);
+            border-color: rgba(99, 102, 241, 0.3);
         }
         .message.ai .message-content {
-            background: rgba(16, 185, 129, 0.1); border-color: var(--success);
+            background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.3);
         }
-        .message-text { color: var(--text); margin-bottom: 0.5rem; line-height: 1.6; }
-        .message-time { font-size: 0.75rem; color: var(--text-secondary); }
+        .message-text { color: var(--text); margin-bottom: 0.4rem; line-height: 1.5; font-size: 0.95rem; }
+        .message-time { font-size: 0.7rem; color: var(--text-secondary); }
         .message-actions {
-            display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap;
+            display: flex; gap: 0.4rem; margin-top: 0.5rem; flex-wrap: wrap;
         }
         .action-btn {
-            padding: 0.4rem 0.8rem; background: rgba(99, 102, 241, 0.2);
-            border: 1px solid var(--primary); color: var(--primary);
-            border-radius: 0.5rem; font-size: 0.8rem; cursor: pointer;
+            padding: 0.3rem 0.6rem; background: rgba(99, 102, 241, 0.12);
+            border: 0.5px solid rgba(99, 102, 241, 0.3); color: var(--primary);
+            border-radius: 0.3rem; font-size: 0.75rem; cursor: pointer;
             transition: all 0.2s; font-weight: 500;
         }
         .action-btn:hover {
-            background: rgba(99, 102, 241, 0.4); transform: translateY(-1px);
+            background: rgba(99, 102, 241, 0.2); border-color: var(--primary);
         }
         .insight-box {
-            background: rgba(245, 158, 11, 0.1); border-left: 3px solid var(--warning);
-            padding: 1rem; border-radius: 0.5rem; margin-top: 0.5rem;
+            background: rgba(245, 158, 11, 0.08); border-left: 2px solid var(--warning);
+            padding: 0.75rem; border-radius: 0.4rem; margin-top: 0.4rem;
         }
-        .insight-label { font-size: 0.75rem; text-transform: uppercase; color: var(--warning); font-weight: 600; margin-bottom: 0.5rem; }
-        .insight-text { color: var(--text); font-size: 0.9rem; line-height: 1.5; }
+        .insight-label { font-size: 0.65rem; text-transform: uppercase; color: var(--warning); font-weight: 600; margin-bottom: 0.3rem; }
+        .insight-text { color: var(--text); font-size: 0.85rem; line-height: 1.5; }
         .reward-badge {
-            display: inline-block; background: rgba(16, 185, 129, 0.2);
-            border: 1px solid var(--success); color: var(--success);
-            padding: 0.25rem 0.75rem; border-radius: 2rem; font-size: 0.75rem;
-            font-weight: 600; margin-top: 0.5rem;
+            display: inline-block; background: rgba(16, 185, 129, 0.15);
+            border: 0.5px solid rgba(16, 185, 129, 0.4); color: var(--success);
+            padding: 0.2rem 0.6rem; border-radius: 2rem; font-size: 0.7rem;
+            font-weight: 600; margin-top: 0.4rem;
         }
         .input-area {
-            display: flex; gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);
+            display: flex; gap: 0.75rem; padding-top: 1rem; border-top: 0.5px solid var(--border);
         }
         .input-field {
-            flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
-            border-radius: 0.75rem; padding: 0.75rem 1.25rem; color: var(--text); font-size: 1rem;
+            flex: 1; background: rgba(255, 255, 255, 0.04); border: 0.5px solid var(--border);
+            border-radius: 0.4rem; padding: 0.6rem 1rem; color: var(--text); font-size: 0.95rem;
         }
-        .input-field:focus { outline: none; border-color: var(--primary); background: rgba(99, 102, 241, 0.1); }
+        .input-field:focus { outline: none; border-color: var(--primary); background: rgba(99, 102, 241, 0.08); }
         .btn {
-            padding: 0.75rem 1.5rem; border: none; border-radius: 0.75rem;
-            font-size: 1rem; cursor: pointer; transition: all 0.2s ease; font-weight: 500;
+            padding: 0.6rem 1.2rem; border: none; border-radius: 0.4rem;
+            font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; font-weight: 500;
         }
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white;
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3); }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
         .empty-state {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             height: 100%; color: var(--text-secondary); text-align: center;
         }
-        .empty-state-icon { font-size: 4rem; margin-bottom: 1rem; opacity: 0.3; }
+        .empty-state-icon { font-size: 4rem; margin-bottom: 1rem; opacity: 0.2; }
         .right-sidebar {
-            width: 320px; border-left: 1px solid var(--border); background: rgba(0, 0, 0, 0.2);
-            padding: 2rem 1.5rem; overflow-y: auto;
+            width: 320px; border-left: 0.5px solid var(--border); background: rgba(0, 0, 0, 0.1);
+            padding: 1.5rem; overflow-y: auto;
         }
-        .card-section { margin-bottom: 2rem; }
+        .card-section { margin-bottom: 1.5rem; }
         .card-title {
-            font-size: 0.9rem; font-weight: 600; color: var(--text);
-            margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;
+            font-size: 0.75rem; font-weight: 600; color: var(--text);
+            margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;
         }
         .activity-item {
-            background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border);
-            border-radius: 0.5rem; padding: 1rem; margin-bottom: 0.75rem; font-size: 0.85rem;
+            background: rgba(255, 255, 255, 0.02); border: 0.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.4rem; padding: 0.75rem; margin-bottom: 0.5rem; font-size: 0.8rem;
         }
-        .activity-time { color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0.25rem; }
-        .activity-text { color: var(--text); }
+        .activity-time { color: var(--text-secondary); font-size: 0.7rem; margin-bottom: 0.2rem; }
+        .activity-text { color: var(--text); line-height: 1.4; }
         @media (max-width: 1024px) {
             .dashboard { grid-template-columns: 1fr; }
             .sidebar { display: none; }
