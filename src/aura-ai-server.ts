@@ -1249,6 +1249,189 @@ export class AuraAiServer extends McpHonoServerDO<Env> {
       }
     });
 
+    /**
+     * Web3 & Decentralized AI Agent Development Endpoints
+     */
+
+    // Register AI agent
+    app.post('/api/agents/register', async (c) => {
+      try {
+        const body = await c.req.json();
+        const { walletAddress, agentName, agentDescription, agentType, capabilities } = body;
+
+        if (!walletAddress || !agentName) {
+          return c.json({ error: 'Missing required fields' }, 400);
+        }
+
+        const agentId = crypto.randomUUID();
+        const agent = {
+          id: agentId,
+          walletAddress,
+          name: agentName,
+          description: agentDescription,
+          type: agentType || 'general', // insight-generator, researcher, analyst, etc.
+          capabilities: capabilities || [],
+          createdAt: new Date().toISOString(),
+          isActive: true,
+          reputation: 0,
+          totalQueriesProcessed: 0,
+          averageRating: 5.0
+        };
+
+        await this.env.AURA_KV.put(`agent:${agentId}`, JSON.stringify(agent));
+        await this.env.AURA_KV.put(`agent:owner:${walletAddress}:${agentId}`, 'true');
+
+        return c.json({ success: true, agentId, agent });
+      } catch (error) {
+        console.error('Agent registration error:', error);
+        return c.json({ error: 'Failed to register agent' }, 500);
+      }
+    });
+
+    // Get agent details
+    app.get('/api/agents/:agentId', async (c) => {
+      try {
+        const agentId = c.req.param('agentId');
+        const agent = await this.env.AURA_KV.get(`agent:${agentId}`, 'json');
+
+        if (!agent) {
+          return c.json({ error: 'Agent not found' }, 404);
+        }
+
+        return c.json(agent);
+      } catch (error) {
+        console.error('Get agent error:', error);
+        return c.json({ error: 'Failed to fetch agent' }, 500);
+      }
+    });
+
+    // List user's agents
+    app.get('/api/agents/user/:walletAddress', async (c) => {
+      try {
+        const walletAddress = c.req.param('walletAddress');
+        const agents = [];
+        const list = await this.env.AURA_KV.list({ prefix: `agent:owner:${walletAddress}:` });
+
+        for (const item of list.keys) {
+          const agentId = item.name.split(':').pop();
+          const agent = await this.env.AURA_KV.get(`agent:${agentId}`, 'json');
+          if (agent) agents.push(agent);
+        }
+
+        return c.json({ agents });
+      } catch (error) {
+        console.error('List agents error:', error);
+        return c.json({ error: 'Failed to fetch agents' }, 500);
+      }
+    });
+
+    // Contribute AI insight to marketplace
+    app.post('/api/ai-marketplace/contribute', async (c) => {
+      try {
+        const body = await c.req.json();
+        const { agentId, insightTitle, insightContent, category, tokensRequested, evidenceLinks } = body;
+
+        if (!agentId || !insightTitle || !insightContent) {
+          return c.json({ error: 'Missing required fields' }, 400);
+        }
+
+        const contributionId = crypto.randomUUID();
+        const contribution = {
+          id: contributionId,
+          agentId,
+          title: insightTitle,
+          content: insightContent,
+          category: category || 'general',
+          tokensRequested: tokensRequested || 50,
+          evidenceLinks: evidenceLinks || [],
+          submittedAt: new Date().toISOString(),
+          status: 'pending', // pending, approved, rejected, purchased
+          approvalCount: 0,
+          purchaseCount: 0,
+          totalTokensEarned: 0
+        };
+
+        await this.env.AURA_KV.put(`contribution:${contributionId}`, JSON.stringify(contribution));
+        await this.env.AURA_KV.put(`agent:${agentId}:contributions:${contributionId}`, 'true');
+
+        return c.json({ success: true, contributionId, contribution });
+      } catch (error) {
+        console.error('Contribution error:', error);
+        return c.json({ error: 'Failed to contribute insight' }, 500);
+      }
+    });
+
+    // List AI marketplace contributions
+    app.get('/api/ai-marketplace/contributions', async (c) => {
+      try {
+        const category = c.req.query('category');
+        const status = c.req.query('status') || 'approved';
+        const limit = parseInt(c.req.query('limit') || '20');
+
+        const contributions = [];
+        const list = await this.env.AURA_KV.list({ prefix: 'contribution:' });
+
+        for (const item of list.keys.slice(0, limit)) {
+          const contribution = await this.env.AURA_KV.get(item.name, 'json');
+          if (contribution && 
+              (!category || contribution.category === category) &&
+              contribution.status === status) {
+            contributions.push(contribution);
+          }
+        }
+
+        return c.json({ contributions, total: contributions.length });
+      } catch (error) {
+        console.error('Marketplace error:', error);
+        return c.json({ error: 'Failed to fetch contributions' }, 500);
+      }
+    });
+
+    // Purchase AI contribution
+    app.post('/api/ai-marketplace/purchase', async (c) => {
+      try {
+        const body = await c.req.json();
+        const { contributionId, buyerWallet, buyerUserId } = body;
+
+        if (!contributionId || !buyerWallet) {
+          return c.json({ error: 'Missing required fields' }, 400);
+        }
+
+        const contribution = await this.env.AURA_KV.get(`contribution:${contributionId}`, 'json');
+        if (!contribution) {
+          return c.json({ error: 'Contribution not found' }, 404);
+        }
+
+        const transactionId = crypto.randomUUID();
+        const transaction = {
+          id: transactionId,
+          contributionId,
+          buyerWallet,
+          buyerUserId,
+          tokenAmount: contribution.tokensRequested,
+          timestamp: new Date().toISOString()
+        };
+
+        // Award tokens to agent owner
+        const agent = await this.env.AURA_KV.get(`agent:${contribution.agentId}`, 'json');
+        if (agent) {
+          await this.tokenService.earnTokens(
+            agent.walletAddress,
+            contribution.tokensRequested,
+            'earn_contribution' as any,
+            `AI marketplace purchase: ${contribution.title}`
+          );
+        }
+
+        await this.env.AURA_KV.put(`transaction:${transactionId}`, JSON.stringify(transaction));
+
+        return c.json({ success: true, transactionId, transaction });
+      } catch (error) {
+        console.error('Purchase error:', error);
+        return c.json({ error: 'Failed to complete purchase' }, 500);
+      }
+    });
+
     // Generate shareable card for insight
     app.get('/api/insights/:insightId/card', async (c) => {
       try {
