@@ -1372,7 +1372,7 @@ export class AuraAiServer extends McpHonoServerDO<Env> {
         const list = await this.env.AURA_KV.list({ prefix: 'contribution:' });
 
         for (const item of list.keys.slice(0, limit)) {
-          const contribution = await this.env.AURA_KV.get(item.name, 'json');
+          const contribution = (await this.env.AURA_KV.get(item.name, 'json')) as any;
           if (contribution && 
               (!category || contribution.category === category) &&
               contribution.status === status) {
@@ -1397,7 +1397,7 @@ export class AuraAiServer extends McpHonoServerDO<Env> {
           return c.json({ error: 'Missing required fields' }, 400);
         }
 
-        const contribution = await this.env.AURA_KV.get(`contribution:${contributionId}`, 'json');
+        const contribution = (await this.env.AURA_KV.get(`contribution:${contributionId}`, 'json')) as any;
         if (!contribution) {
           return c.json({ error: 'Contribution not found' }, 404);
         }
@@ -1413,7 +1413,7 @@ export class AuraAiServer extends McpHonoServerDO<Env> {
         };
 
         // Award tokens to agent owner
-        const agent = await this.env.AURA_KV.get(`agent:${contribution.agentId}`, 'json');
+        const agent = (await this.env.AURA_KV.get(`agent:${contribution.agentId}`, 'json')) as any;
         if (agent) {
           await this.tokenService.earnTokens(
             agent.walletAddress,

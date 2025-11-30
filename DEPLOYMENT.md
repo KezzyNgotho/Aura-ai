@@ -15,19 +15,25 @@ This guide explains how to deploy the AURA AI smart contracts to multiple blockc
 
 1. **Node.js** (v18+) - Already installed ✓
 2. **ThirdWeb CLI** - Already installed ✓
-3. **Private Key** - Your deployment wallet (with native gas tokens)
-4. **RPC Endpoints** - Already configured ✓
-5. **Gas Funds** - ETH/native tokens for deployment
+3. **ThirdWeb Secret Key** - For CLI authentication
+4. **Private Key** - Your deployment wallet (with native gas tokens)
+5. **RPC Endpoints** - Already configured ✓
+6. **Gas Funds** - ETH/native tokens for deployment
 
-**What you do NOT need:**
-- ❌ ThirdWeb Client ID
-- ❌ ThirdWeb Secret Key
-- ❌ ThirdWeb API Key
-- ❌ Any ThirdWeb dashboard credentials
+**What you need:**
+- ✅ THIRDWEB_SECRET_KEY (get from https://thirdweb.com/team/~/~/)
+- ✅ PRIVATE_KEY (your wallet's private key with 0x prefix)
 
 ## Setup Steps
 
-### Step 1: Prepare Your Environment
+### Step 1: Get ThirdWeb Secret Key
+
+1. Go to https://thirdweb.com/team/~/~/
+2. Click "API Keys" in the sidebar
+3. Click "Create API Key"
+4. Copy the generated secret key
+
+### Step 2: Prepare Your Environment
 
 Create a `.env` file in the project root:
 
@@ -35,15 +41,20 @@ Create a `.env` file in the project root:
 cp .env.example .env
 ```
 
-Edit `.env` and add your private key:
+Edit `.env` and add both keys:
 
 ```
+THIRDWEB_SECRET_KEY=your_secret_key_from_dashboard
 PRIVATE_KEY=0x1234567890abcdef...
 ```
 
-**That's it!** You only need your private key. No API keys, secret keys, or client IDs required.
+**⚠️ SECURITY:**
+- Never commit `.env` to version control
+- Use a dedicated deployment wallet (not your main wallet)
+- Keep your keys secure
+- Add `.env` to `.gitignore` (already done)
 
-### Step 2: Fund Your Deployment Wallet
+### Step 3: Fund Your Deployment Wallet
 
 You need gas tokens for deployment:
 
@@ -56,7 +67,7 @@ You need gas tokens for deployment:
 - Transfer enough ETH to cover gas fees
 - Gas estimates: ~$50-200 per contract depending on network
 
-### Step 3: Deploy to Testnet (Recommended First)
+### Step 4: Deploy to Testnet (Recommended First)
 
 Deploy all contracts to Arbitrum Sepolia for testing:
 
@@ -80,7 +91,7 @@ This will:
 ✓ AgentMarketplace deployed to: 0x8888...1111
 ```
 
-### Step 4: Configure Constructor Parameters
+### Step 5: Configure Constructor Parameters
 
 When deploying, you'll be asked for constructor parameters:
 
@@ -89,7 +100,7 @@ When deploying, you'll be asked for constructor parameters:
 - Automatically mints 10M tokens to deployer
 
 #### RewardsMinter
-- `_auraToken`: Address of AuraToken contract (from step 3)
+- `_auraToken`: Address of AuraToken contract (from step 4)
 - `_usdc`: USDC token address on the chain:
   - Sepolia: No USDC testnet yet
   - Base: `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913`
@@ -104,7 +115,7 @@ When deploying, you'll be asked for constructor parameters:
 #### AgentMarketplace
 - `_auraToken`: Address of AuraToken contract
 
-### Step 5: Link Contracts
+### Step 6: Link Contracts
 
 After deployment, authorize contracts to interact:
 
@@ -119,7 +130,7 @@ After deployment, authorize contracts to interact:
 # AuraToken.transfer(AgentMarketplaceAddress, 100000e18) # 100k AURA
 ```
 
-### Step 6: Deploy to Production (After Testing)
+### Step 7: Deploy to Production (After Testing)
 
 Once tested on Sepolia, deploy to mainnet chains:
 

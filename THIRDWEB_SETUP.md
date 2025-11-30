@@ -85,21 +85,25 @@ Create a `.env` file from the template:
 cp .env.example .env
 ```
 
-Edit `.env` and add **only** your private key:
+Edit `.env` and add **both** required keys:
 
 ```env
-# That's it! Only PRIVATE_KEY is needed.
-# No Client ID, API Key, or Secret Key required.
+# 1. Get your Secret Key from https://thirdweb.com/team/~/~/
+# Click "API Keys" and generate a new secret key
+THIRDWEB_SECRET_KEY=your_secret_key_here
+
+# 2. Add your wallet's private key (with 0x prefix)
+# This is the wallet that will deploy the contracts
 PRIVATE_KEY=0x1234567890abcdef...
 ```
 
+**IMPORTANT:**
+- ✅ THIRDWEB_SECRET_KEY - Required for CLI authentication
+- ✅ PRIVATE_KEY - Required to pay gas and deploy contracts
+
 **NOTE:** You do NOT need:
 - ❌ ThirdWeb Client ID
-- ❌ ThirdWeb Secret Key
-- ❌ ThirdWeb API Key
-- ❌ Any ThirdWeb dashboard credentials
-
-The ThirdWeb CLI uses your wallet's private key directly to deploy contracts.
+- ❌ Any other ThirdWeb dashboard credentials
 
 ### Network Configuration
 
