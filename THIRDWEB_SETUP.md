@@ -85,19 +85,21 @@ Create a `.env` file from the template:
 cp .env.example .env
 ```
 
-Edit `.env` and add required variables:
+Edit `.env` and add **only** your private key:
 
 ```env
-# Your deployment wallet's private key (start with 0x)
+# That's it! Only PRIVATE_KEY is needed.
+# No Client ID, API Key, or Secret Key required.
 PRIVATE_KEY=0x1234567890abcdef...
-
-# RPC endpoints (already configured with defaults)
-ARBITRUM_SEPOLIA_RPC_URL=https://sepolia-rollup.arbitrum.io/rpc
-BASE_RPC_URL=https://mainnet.base.org
-OPTIMISM_RPC_URL=https://mainnet.optimism.io
-ARBITRUM_RPC_URL=https://arb1.arbitrum.io
-POLYGON_RPC_URL=https://polygon-rpc.com
 ```
+
+**NOTE:** You do NOT need:
+- ❌ ThirdWeb Client ID
+- ❌ ThirdWeb Secret Key
+- ❌ ThirdWeb API Key
+- ❌ Any ThirdWeb dashboard credentials
+
+The ThirdWeb CLI uses your wallet's private key directly to deploy contracts.
 
 ### Network Configuration
 

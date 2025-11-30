@@ -19,6 +19,12 @@ This guide explains how to deploy the AURA AI smart contracts to multiple blockc
 4. **RPC Endpoints** - Already configured ✓
 5. **Gas Funds** - ETH/native tokens for deployment
 
+**What you do NOT need:**
+- ❌ ThirdWeb Client ID
+- ❌ ThirdWeb Secret Key
+- ❌ ThirdWeb API Key
+- ❌ Any ThirdWeb dashboard credentials
+
 ## Setup Steps
 
 ### Step 1: Prepare Your Environment
@@ -35,11 +41,7 @@ Edit `.env` and add your private key:
 PRIVATE_KEY=0x1234567890abcdef...
 ```
 
-**⚠️ SECURITY:**
-- Never commit `.env` to version control
-- Use a dedicated deployment wallet (not your main wallet)
-- Keep your private key secure
-- Consider using hardware wallet for mainnet
+**That's it!** You only need your private key. No API keys, secret keys, or client IDs required.
 
 ### Step 2: Fund Your Deployment Wallet
 
