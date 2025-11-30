@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura AI - Insights & Tokens Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: #475569;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg) 0%, #1a1f3a 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            margin-bottom: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Token Display */
+        .token-display {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.2);
+        }
+
+        .token-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15);
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Query Form */
+        .query-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        /* Insight Display */
+        .insight-container {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .insight-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .insight-type {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .recommendation {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        .recommendation strong {
+            color: var(--primary);
+        }
+
+        .explanation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .explanation-section {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .explanation-section h4 {
+            color: var(--primary);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+
+        .explanation-section ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .explanation-section li {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .explanation-section li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Transaction History */
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            border-left: 3px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .transaction-item:hover {
+            border-left-color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .transaction-item.earn {
+            border-left-color: var(--success);
+        }
+
+        .transaction-item.spend {
+            border-left-color: var(--danger);
+        }
+
+        .transaction-description {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            flex: 1;
+        }
+
+        .transaction-type {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .transaction-time {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .transaction-amount {
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .transaction-amount.earn {
+            color: var(--success);
+        }
+
+        .transaction-amount.spend {
+            color: var(--danger);
+        }
+
+        /* Loading & Status */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            color: var(--text-secondary);
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #86efac;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 0.5rem 1rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: none;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-button:hover {
+            color: var(--text);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .tab-button.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .explanation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .transaction-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .transaction-amount {
+                margin-top: 0.5rem;
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-brand">✨ Aura AI</div>
+            <div class="header-actions">
+                <div class="token-display">
+                    <span class="token-icon">⭐</span>
+                    <span id="tokenBalance">0 Tokens</span>
+                </div>
+                <input type="text" id="userId" placeholder="Enter your User ID" style="width: 200px;">
+            </div>
+        </header>
+
+        <div class="main-grid">
+            <!-- Left Column: Query & Insights -->
+            <div>
+                <!-- Query Form Card -->
+                <div class="card">
+                    <h2>🤖 Ask Aura AI</h2>
+                    <form class="query-form" id="queryForm">
+                        <div class="form-group">
+                            <label for="queryText">What's on your mind?</label>
+                            <textarea id="queryText" placeholder="Ask about finance, learning, business, trends, or personal decisions..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="queryCategory">Category (optional)</label>
+                            <select id="queryCategory">
+                                <option value="">Auto-detect</option>
+                                <option value="FINANCE">Finance</option>
+                                <option value="LEARNING">Learning</option>
+                                <option value="BUSINESS">Business</option>
+                                <option value="TRENDS">Trends</option>
+                                <option value="PERSONAL">Personal</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" id="submitBtn">Get Insight (+10 tokens)</button>
+                    </form>
+
+                    <!-- Insights Display -->
+                    <div id="insightContainer" class="insight-container" style="display: none;">
+                        <div id="insightContent"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Stats & History -->
+            <div>
+                <!-- Stats Card -->
+                <div class="card">
+                    <h2>📊 Your Profile</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-label">Total Tokens</div>
+                            <div class="stat-value" id="totalTokens">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Queries</div>
+                            <div class="stat-value" id="totalQueries">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Insights</div>
+                            <div class="stat-value" id="totalInsights">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Deep Dives</div>
+                            <div class="stat-value" id="deepInsights">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="card">
+                    <h2>📜 Transaction History</h2>
+                    <div id="transactionList" class="transaction-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+
+        // Initialize with user ID
+        let currentUserId = localStorage.getItem('auraUserId') || 'user-' + Math.random().toString(36).substr(2, 9);
+        document.getElementById('userId').value = currentUserId;
+
+        // Save user ID on change
+        document.getElementById('userId').addEventListener('change', (e) => {
+            currentUserId = e.target.value;
+            localStorage.setItem('auraUserId', currentUserId);
+            refreshUserData();
+        });
+
+        // Load user data on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            refreshUserData();
+        });
+
+        // Handle form submission
+        document.getElementById('queryForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const queryText = document.getElementById('queryText').value;
+            const category = document.getElementById('queryCategory').value || undefined;
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (!queryText.trim()) return;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span> Processing...';
+
+            try {
+                const response = await fetch(`${API_BASE}/query`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        text: queryText,
+                        category,
+                        userId: currentUserId
+                    })
+                });
+
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                const data = await response.json();
+                
+                if (data.insight) {
+                    displayInsight(data.insight);
+                    document.getElementById('queryText').value = '';
+                    await new Promise(r => setTimeout(r, 500));
+                    refreshUserData();
+                }
+            } catch (error) {
+                const container = document.getElementById('insightContainer');
+                container.style.display = 'block';
+                container.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Get Insight (+10 tokens)';
+            }
+        });
+
+        function displayInsight(insight) {
+            const container = document.getElementById('insightContainer');
+            const content = document.getElementById('insightContent');
+            
+            const exp = insight.explanation || {};
+            const reasoning = (exp.reasoning || '').split('\n').slice(0, 10).join('\n');
+            const dataPoints = exp.dataPoints || [];
+            const alternatives = exp.alternatives || [];
+            const risks = exp.riskFactors || [];
+
+            content.innerHTML = `
+                <div class="insight-card">
+                    <span class="insight-type">${insight.type || 'GENERAL'}</span>
+                    
+                    <div class="recommendation">
+                        ${(insight.recommendation || 'Insight generated').replace(/\n/g, '<br>')}
+                    </div>
+
+                    <div class="explanation-grid">
+                        <div class="explanation-section">
+                            <h4>💡 Reasoning</h4>
+                            <div style="font-size: 0.9rem; color: var(--text-secondary);">
+                                ${(reasoning || 'Analysis framework applied').replace(/\n/g, '<br>')}
+                            </div>
+                        </div>
+
+                        <div class="explanation-section">
+                            <h4>📊 Key Data Points</h4>
+                            <ul>
+                                ${(dataPoints.slice(0, 3).map(d => `<li>${d}</li>`).join('') || '<li>Context analyzed</li>')}
+                            </ul>
+                        </div>
+
+                        <div class="explanation-section">
+                            <h4>🔄 Alternatives</h4>
+                            <ul>
+                                ${(alternatives.slice(0, 3).map(a => `<li>${a}</li>`).join('') || '<li>Multiple approaches exist</li>')}
+                            </ul>
+                        </div>
+
+                        <div class="explanation-section">
+                            <h4>⚠️ Key Risks</h4>
+                            <ul>
+                                ${(risks.slice(0, 3).map(r => `<li>${r}</li>`).join('') || '<li>Consider potential downsides</li>')}
+                            </ul>
+                        </div>
+                    </div>
+
+                    ${insight.actionableSteps ? `
+                        <div class="explanation-section" style="margin-top: 1rem;">
+                            <h4>✅ Action Steps</h4>
+                            <ol style="list-style: none; padding: 0;">
+                                ${insight.actionableSteps.map((step, i) => `
+                                    <li style="padding-left: 1.75rem; position: relative; margin-bottom: 0.5rem;">
+                                        <span style="position: absolute; left: 0; color: var(--primary); font-weight: bold;">${i + 1}.</span>
+                                        ${step}
+                                    </li>
+                                `).join('')}
+                            </ol>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+            container.style.display = 'block';
+        }
+
+        async function refreshUserData() {
+            if (!currentUserId || currentUserId === '') return;
+
+            try {
+                // Fetch token balance
+                const tokenRes = await fetch(`${API_BASE}/user/${currentUserId}/tokens`);
+                if (tokenRes.ok) {
+                    const tokenData = await tokenRes.json();
+                    document.getElementById('tokenBalance').textContent = `${tokenData.tokens} Tokens`;
+                    document.getElementById('totalTokens').textContent = tokenData.tokens;
+                }
+
+                // Fetch transaction history
+                const transRes = await fetch(`${API_BASE}/user/${currentUserId}/transactions`);
+                if (transRes.ok) {
+                    const transactions = await transRes.json();
+                    displayTransactions(transactions);
+                    
+                    // Calculate stats
+                    const queries = transactions.filter(t => t.type === 'QUERY_REWARD').length;
+                    const deepInsights = transactions.filter(t => t.type === 'DEEP_INSIGHT_UNLOCK').length;
+                    
+                    document.getElementById('totalQueries').textContent = queries;
+                    document.getElementById('totalInsights').textContent = queries;
+                    document.getElementById('deepInsights').textContent = deepInsights;
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+
+        function displayTransactions(transactions) {
+            const list = document.getElementById('transactionList');
+            
+            if (!transactions || transactions.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📝</div>
+                        <p>No transactions yet</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = transactions.slice(0, 10).map(t => {
+                const date = new Date(t.timestamp);
+                const timeStr = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const isEarn = t.type.includes('EARN') || t.type === 'QUERY_REWARD' || t.amount > 0;
+                
+                return `
+                    <div class="transaction-item ${isEarn ? 'earn' : 'spend'}">
+                        <div class="transaction-description">
+                            <div class="transaction-type">${t.type.replace(/_/g, ' ')}</div>
+                            <div class="transaction-time">${timeStr}</div>
+                        </div>
+                        <div class="transaction-amount ${isEarn ? 'earn' : 'spend'}">
+                            ${isEarn ? '+' : ''}${t.amount} ⭐
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Refresh data every 30 seconds
+        setInterval(refreshUserData, 30000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rewards Dashboard - Aura AI</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #6366f1; --primary-dark: #4f46e5; --secondary: #8b5cf6;
+            --success: #10b981; --warning: #f59e0b; --danger: #ef4444;
+            --bg: #0f172a; --bg-secondary: #1e293b; --bg-tertiary: #334155;
+            --text: #f1f5f9; --text-secondary: #cbd5e1; --border: #475569;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg) 0%, #1a1f3a 100%);
+            color: var(--text); line-height: 1.6;
+        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 3rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);
+        }
+        .logo { font-size: 1.8rem; font-weight: bold; background: linear-gradient(135deg, var(--primary), var(--secondary));
+                -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .user-info { display: flex; gap: 1rem; align-items: center; }
+        .user-info p { color: var(--text-secondary); font-size: 0.95rem; }
+        .btn {
+            padding: 0.75rem 1.5rem; border: none; border-radius: 0.5rem;
+            font-size: 1rem; cursor: pointer; transition: all 0.3s ease;
+            text-decoration: none; display: inline-block; font-weight: 500;
+        }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3); }
+        .btn-secondary { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
+        .btn-secondary:hover { background: rgba(99, 102, 241, 0.1); }
+        .btn-danger { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); color: var(--danger); }
+        .btn-danger:hover { background: var(--danger); color: white; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem; }
+        .card {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
+            border-radius: 1rem; padding: 2rem;
+        }
+        .card h3 { color: var(--primary); margin-bottom: 1rem; font-size: 1rem; text-transform: uppercase; opacity: 0.8; }
+        .card .value { font-size: 2.5rem; font-weight: bold; margin-bottom: 0.5rem; }
+        .card .label { color: var(--text-secondary); font-size: 0.9rem; }
+
+        .tabs { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border); }
+        .tab-btn {
+            padding: 0.75rem 1.5rem; background: none; border: none;
+            border-bottom: 2px solid transparent; color: var(--text-secondary); cursor: pointer;
+            font-weight: 500; transition: all 0.3s ease;
+        }
+        .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+        .table-container { overflow-x: auto; }
+        table {
+            width: 100%; border-collapse: collapse; background: rgba(255, 255, 255, 0.02);
+            border-radius: 0.5rem; overflow: hidden;
+        }
+        th { background: rgba(255, 255, 255, 0.05); padding: 1rem; text-align: left; color: var(--text-secondary); font-weight: 500; }
+        td { padding: 1rem; border-top: 1px solid var(--border); }
+        tr:hover { background: rgba(99, 102, 241, 0.05); }
+
+        .badge {
+            display: inline-block; padding: 0.25rem 0.75rem; border-radius: 9999px;
+            font-size: 0.85rem; font-weight: 500;
+        }
+        .badge-pending { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .badge-processing { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .badge-completed { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .badge-failed { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                 background: rgba(0, 0, 0, 0.7); z-index: 1000; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--bg-secondary); border: 1px solid var(--border);
+            border-radius: 1rem; padding: 2.5rem; width: 90%; max-width: 500px;
+        }
+
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-weight: 500; }
+        .form-group input {
+            width: 100%; padding: 0.75rem; background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border); border-radius: 0.5rem; color: var(--text); font-size: 1rem;
+        }
+        .form-group input:focus { outline: none; border-color: var(--primary); background: rgba(99, 102, 241, 0.1); }
+
+        .info-box { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary); border-radius: 0.5rem; padding: 1rem; margin-bottom: 1.5rem; }
+        .info-box p { color: var(--text-secondary); font-size: 0.9rem; }
+
+        .conversion-display {
+            background: rgba(139, 92, 246, 0.1); border: 1px solid var(--secondary);
+            border-radius: 0.5rem; padding: 1.5rem; text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .conversion-display .rate { font-size: 2rem; font-weight: bold; color: var(--secondary); margin-bottom: 0.5rem; }
+        .conversion-display .label { color: var(--text-secondary); font-size: 0.85rem; }
+
+        .message { padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; display: none; }
+        .message.show { display: block; }
+        .message.error { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); color: #fca5a5; }
+        .message.success { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); color: #86efac; }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            header { flex-direction: column; gap: 1rem; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">✨ Aura AI Rewards</div>
+            <div class="user-info">
+                <div>
+                    <p id="username">User</p>
+                    <p id="walletDisplay" style="font-size: 0.85rem; color: var(--text-secondary);">No wallet connected</p>
+                </div>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <!-- Overview Cards -->
+        <div class="grid">
+            <div class="card">
+                <h3>💰 Aura Token Balance</h3>
+                <div class="value" id="tokenBalance">0</div>
+                <div class="label">Available tokens</div>
+            </div>
+            <div class="card">
+                <h3>🪙 USDC Rewards</h3>
+                <div class="value" id="usdcMinted">0</div>
+                <div class="label">Total minted ($)</div>
+            </div>
+            <div class="card">
+                <h3>📊 Rewards Pending</h3>
+                <div class="value" id="pendingCount">0</div>
+                <div class="label">Processing rewards</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('convert')">💸 Convert Tokens</button>
+            <button class="tab-btn" onclick="switchTab('history')">📜 Reward History</button>
+            <button class="tab-btn" onclick="switchTab('wallet')">🔗 Wallet Settings</button>
+        </div>
+
+        <!-- Convert Tokens Tab -->
+        <div id="convertTab" class="tab-content">
+            <div class="card">
+                <h3>Convert Aura Tokens to USDC</h3>
+                
+                <div id="convertMessage" class="message"></div>
+
+                <div class="conversion-display">
+                    <div class="rate" id="conversionRate">0.1</div>
+                    <div class="label">AURA to USDC</div>
+                </div>
+
+                <form onsubmit="handleConvert(event)">
+                    <div class="form-group">
+                        <label for="tokenAmount">Amount (AURA Tokens)</label>
+                        <input type="number" id="tokenAmount" placeholder="100" min="1" step="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>You will receive</label>
+                        <input type="text" id="usdcAmount" placeholder="0.00 USDC" readonly 
+                               style="background: rgba(255, 255, 255, 0.02); cursor: default;">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="walletAddress">Wallet Address (0x...)</label>
+                        <input type="text" id="walletAddress" placeholder="0x..." required>
+                    </div>
+
+                    <div class="info-box">
+                        <p>💡 Rewards will be sent to your wallet on the Base chain as USDC. Transactions typically complete within 5-15 minutes.</p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Convert & Mint Reward</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- History Tab -->
+        <div id="historyTab" class="tab-content" style="display: none;">
+            <div class="card">
+                <h3>Recent Reward Conversions</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>AURA</th>
+                                <th>USDC</th>
+                                <th>Status</th>
+                                <th>TX Hash</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTable">
+                            <tr><td colspan="5" style="text-align: center; color: var(--text-secondary);">No rewards yet</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wallet Settings Tab -->
+        <div id="walletTab" class="tab-content" style="display: none;">
+            <div class="card">
+                <h3>Wallet Connection</h3>
+                
+                <div id="walletMessage" class="message"></div>
+
+                <div id="walletConnected" style="display: none;">
+                    <div class="info-box">
+                        <p>✓ Wallet Connected</p>
+                        <p id="connectedWallet" style="margin-top: 0.5rem; font-weight: 500; color: var(--text);">-</p>
+                    </div>
+                    <button type="button" class="btn btn-danger" style="width: 100%;" onclick="disconnectWallet()">Disconnect Wallet</button>
+                </div>
+
+                <div id="walletNotConnected">
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Connect your Web3 wallet to receive crypto rewards on Base chain.</p>
+                    <button type="button" class="btn btn-primary" style="width: 100%;" onclick="connectWallet()">🔗 Connect MetaMask</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let authToken = localStorage.getItem('authToken');
+        let userWallet = localStorage.getItem('walletAddress');
+
+        if (!authToken) {
+            window.location.href = '/';
+        }
+
+        // Load user data
+        async function loadUserData() {
+            try {
+                const response = await fetch(\`/api/user/\${authToken}\`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('username').textContent = data.user.username || 'User';
+                    document.getElementById('tokenBalance').textContent = Math.floor(data.tokens.balance);
+                    document.getElementById('usdcMinted').textContent = (data.stats.rewardsMinted || 0).toFixed(2);
+                    document.getElementById('pendingCount').textContent = data.rewards.filter(r => r.status === 'pending' || r.status === 'processing').length;
+
+                    if (data.user.walletAddress) {
+                        userWallet = data.user.walletAddress;
+                        localStorage.setItem('walletAddress', userWallet);
+                        updateWalletDisplay(userWallet);
+                    }
+
+                    await loadRewards(data.rewards);
+                } else {
+                    console.error('Failed to load user data');
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+
+        async function loadConversionRate() {
+            try {
+                const response = await fetch('/api/rewards/conversion-rate');
+                const data = await response.json();
+                document.getElementById('conversionRate').textContent = data.auraToUsdc;
+            } catch (error) {
+                console.error('Error loading conversion rate:', error);
+            }
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+
+            event.target.classList.add('active');
+            document.getElementById(tab + 'Tab').style.display = 'block';
+        }
+
+        async function handleConvert(event) {
+            event.preventDefault();
+            const tokenAmount = parseInt(document.getElementById('tokenAmount').value);
+            const walletAddress = document.getElementById('walletAddress').value;
+
+            const msg = document.getElementById('convertMessage');
+
+            if (!tokenAmount || !walletAddress) {
+                showMessage('Please fill in all fields', 'error', msg);
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/rewards/mint', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: authToken,
+                        auraTokens: tokenAmount,
+                        walletAddress
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('✓ Reward created! Processing...', 'success', msg);
+                    document.getElementById('tokenAmount').value = '';
+                    setTimeout(() => loadUserData(), 2000);
+                } else {
+                    showMessage(data.error || 'Conversion failed', 'error', msg);
+                }
+            } catch (error) {
+                showMessage('Connection error', 'error', msg);
+            }
+        }
+
+        async function loadRewards(rewards) {
+            const tbody = document.getElementById('historyTable');
+            if (!rewards || rewards.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-secondary);">No rewards yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = rewards.map(r => \`
+                <tr>
+                    <td>\${new Date(r.createdAt).toLocaleDateString()}</td>
+                    <td>\${r.auraTokens}</td>
+                    <td>\${r.usdcAmount.toFixed(2)}</td>
+                    <td><span class="badge badge-\${r.status}">\${r.status}</span></td>
+                    <td><code style="font-size: 0.8rem;">\${r.transactionHash ? r.transactionHash.slice(0, 10) + '...' : 'Pending'}</code></td>
+                </tr>
+            \`).join('');
+        }
+
+        function updateWalletDisplay(wallet) {
+            if (wallet) {
+                document.getElementById('walletNotConnected').style.display = 'none';
+                document.getElementById('walletConnected').style.display = 'block';
+                document.getElementById('connectedWallet').textContent = wallet;
+                document.getElementById('walletAddress').value = wallet;
+                document.getElementById('walletDisplay').textContent = wallet.slice(0, 6) + '...' + wallet.slice(-4);
+            } else {
+                document.getElementById('walletNotConnected').style.display = 'block';
+                document.getElementById('walletConnected').style.display = 'none';
+            }
+        }
+
+        async function connectWallet() {
+            if (!window.ethereum) {
+                showMessage('MetaMask or Web3 wallet required', 'error', document.getElementById('walletMessage'));
+                return;
+            }
+
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const account = accounts[0];
+
+                // Link wallet to account
+                const response = await fetch('/api/auth/link-wallet', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId: authToken, walletAddress: account })
+                });
+
+                if (response.ok) {
+                    localStorage.setItem('walletAddress', account);
+                    updateWalletDisplay(account);
+                    showMessage('✓ Wallet connected!', 'success', document.getElementById('walletMessage'));
+                } else {
+                    showMessage('Failed to link wallet', 'error', document.getElementById('walletMessage'));
+                }
+            } catch (error) {
+                showMessage('Wallet connection failed', 'error', document.getElementById('walletMessage'));
+            }
+        }
+
+        function disconnectWallet() {
+            localStorage.removeItem('walletAddress');
+            userWallet = null;
+            updateWalletDisplay(null);
+        }
+
+        function showMessage(text, type, element) {
+            element.textContent = text;
+            element.className = 'message show ' + type;
+            setTimeout(() => {
+                element.classList.remove('show');
+            }, 5000);
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('walletAddress');
+            window.location.href = '/';
+        }
+
+        // Calculate USDC amount on input
+        document.getElementById('tokenAmount')?.addEventListener('input', async (e) => {
+            const amount = parseInt(e.target.value);
+            if (amount > 0) {
+                try {
+                    const response = await fetch('/api/rewards/calculate', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ auraTokens: amount })
+                    });
+                    const data = await response.json();
+                    document.getElementById('usdcAmount').value = data.usdcAmount.toFixed(2) + ' USDC';
+                } catch (error) {
+                    console.error('Calculation error:', error);
+                }
+            }
+        });
+
+        // Initialize
+        loadUserData();
+        loadConversionRate();
+        updateWalletDisplay(userWallet);
+    </script>
+</body>
+</html>

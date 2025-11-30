@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura AI - Transparent Real-Impact Intelligence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --bg: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: #475569;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg) 0%, #1a1f3a 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 5rem;
+            padding: 3rem 0;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Auth Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 0.75rem;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .form-group.checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group.checkbox input {
+            width: auto;
+            margin: 0;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .form-actions button {
+            flex: 1;
+            padding: 0.75rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-actions .submit {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .form-actions .submit:hover {
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .form-actions .cancel {
+            background: var(--bg-tertiary);
+            color: var(--text);
+        }
+
+        .form-actions .cancel:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Wallet Connect */
+        .wallet-section {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid var(--secondary);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .wallet-section button {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .wallet-section button:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .divider span {
+            background: var(--bg-secondary);
+            padding: 0 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid var(--secondary);
+            border-radius: 1rem;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .benefits h2 {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .benefit-item {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 0.5rem;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .benefit-item h4 {
+            color: var(--success);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .benefit-item p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem 0;
+            margin-top: 5rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Error/Success Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            color: #fca5a5;
+        }
+
+        .message.success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: #86efac;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero .cta-buttons {
+                flex-direction: column;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav>
+            <div class="logo">✨ Aura AI</div>
+            <div class="auth-buttons">
+                <button class="btn btn-secondary" onclick="openAuthModal('login')">Login</button>
+                <button class="btn btn-primary" onclick="openAuthModal('signup')">Sign Up</button>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Transform Data Into Actionable Insights</h1>
+            <p>Get transparent, AI-powered insights with real-time token rewards. Earn and trade crypto rewards instantly.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary btn-lg" onclick="openAuthModal('signup')">Start Earning Now</button>
+                <button class="btn btn-secondary btn-lg" onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})">Learn More</button>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features">
+            <div class="feature-card">
+                <h3>📊 Real-Time Analytics</h3>
+                <p>Get instant, transparent insights powered by cutting-edge AI with full explainability of reasoning.</p>
+            </div>
+            <div class="feature-card">
+                <h3>💰 Earn Tokens</h3>
+                <p>Earn Aura tokens for every insight you generate. Convert them to USDC and withdraw to your wallet.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔗 Multi-Platform</h3>
+                <p>Access insights from WhatsApp, Telegram, Discord, or directly from your browser dashboard.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🏪 Insight Marketplace</h3>
+                <p>Share insights with the community, build reputation, and monetize your knowledge.</p>
+            </div>
+            <div class="feature-card">
+                <h3>⚡ Instant Crypto Rewards</h3>
+                <p>Convert earned tokens to USDC on Base chain with instant verification and secure wallet integration.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🤝 Collaborate & Vote</h3>
+                <p>Work with the community on insights, get feedback, and improve your analysis together.</p>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section class="benefits">
+            <h2>Why Join Aura AI?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <h4>✓ Transparent</h4>
+                    <p>See exactly how insights are generated with full reasoning chains and data sources.</p>
+                </div>
+                <div class="benefit-item">
+                    <h4>✓ Real Rewards</h4>
+                    <p>Earn and withdraw actual USDC crypto directly to your wallet. No fake points.</p>
+                </div>
+                <div class="benefit-item">
+                    <h4>✓ Community-Driven</h4>
+                    <p>Share insights, collaborate with others, and build your reputation on the platform.</p>
+                </div>
+                <div class="benefit-item">
+                    <h4>✓ Multi-Platform</h4>
+                    <p>Use on any platform - web, WhatsApp, Telegram, Discord. Your choice.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <div class="message" id="authMessage"></div>
+
+            <div class="tabs">
+                <button class="tab-button active" onclick="switchTab('login')">Login</button>
+                <button class="tab-button" onclick="switchTab('signup')">Sign Up</button>
+            </div>
+
+            <!-- Login Tab -->
+            <div id="loginTab" class="auth-tab" style="display: block;">
+                <h2>Welcome Back</h2>
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe" style="margin: 0;">Remember me</label>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="submit">Login</button>
+                        <button type="button" class="cancel" onclick="closeAuthModal()">Cancel</button>
+                    </div>
+                </form>
+
+                <div class="divider"><span>or</span></div>
+
+                <div class="wallet-section">
+                    <p style="font-size: 0.9rem; margin-bottom: 1rem;">Connect with Web3 Wallet</p>
+                    <button onclick="connectWallet()">🔗 Connect Wallet</button>
+                </div>
+            </div>
+
+            <!-- Signup Tab -->
+            <div id="signupTab" class="auth-tab" style="display: none;">
+                <h2>Create Account</h2>
+                <form onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label for="signupUsername">Username</label>
+                        <input type="text" id="signupUsername" placeholder="yourname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupConfirm">Confirm Password</label>
+                        <input type="password" id="signupConfirm" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-group checkbox">
+                        <input type="checkbox" id="termsAgree" required>
+                        <label for="termsAgree" style="margin: 0;">I agree to Terms of Service</label>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="submit">Create Account</button>
+                        <button type="button" class="cancel" onclick="closeAuthModal()">Cancel</button>
+                    </div>
+                </form>
+
+                <div class="divider"><span>or</span></div>
+
+                <div class="wallet-section">
+                    <p style="font-size: 0.9rem; margin-bottom: 1rem;">Sign Up with Web3 Wallet</p>
+                    <button onclick="connectWallet()">🔗 Connect Wallet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Aura AI. Transparent Intelligence Powered by Real Impact.</p>
+    </footer>
+
+    <script>
+        function openAuthModal(tab) {
+            document.getElementById('authModal').classList.add('active');
+            switchTab(tab);
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.remove('active');
+            clearMessages();
+        }
+
+        function switchTab(tab) {
+            // Hide all tabs
+            document.querySelectorAll('.auth-tab').forEach(t => t.style.display = 'none');
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+
+            // Show selected tab
+            if (tab === 'login') {
+                document.getElementById('loginTab').style.display = 'block';
+                document.querySelectorAll('.tab-button')[0].classList.add('active');
+            } else {
+                document.getElementById('signupTab').style.display = 'block';
+                document.querySelectorAll('.tab-button')[1].classList.add('active');
+            }
+
+            clearMessages();
+        }
+
+        function clearMessages() {
+            const msg = document.getElementById('authMessage');
+            msg.textContent = '';
+            msg.classList.remove('show', 'error', 'success');
+        }
+
+        function showMessage(text, type) {
+            const msg = document.getElementById('authMessage');
+            msg.textContent = text;
+            msg.className = `message show ${type}`;
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('Login successful! Redirecting...', 'success');
+                    localStorage.setItem('authToken', data.session.userId);
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1500);
+                } else {
+                    showMessage(data.error || 'Login failed', 'error');
+                }
+            } catch (error) {
+                showMessage('Connection error. Please try again.', 'error');
+            }
+        }
+
+        async function handleSignup(event) {
+            event.preventDefault();
+            const username = document.getElementById('signupUsername').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirm = document.getElementById('signupConfirm').value;
+
+            if (password !== confirm) {
+                showMessage('Passwords do not match', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showMessage('Account created! Logging in...', 'success');
+                    localStorage.setItem('authToken', data.session.userId);
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1500);
+                } else {
+                    showMessage(data.error || 'Signup failed', 'error');
+                }
+            } catch (error) {
+                showMessage('Connection error. Please try again.', 'error');
+            }
+        }
+
+        async function connectWallet() {
+            if (!window.ethereum) {
+                showMessage('MetaMask or Web3 wallet required', 'error');
+                return;
+            }
+
+            try {
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const account = accounts[0];
+                
+                // Store wallet for later use
+                localStorage.setItem('walletAddress', account);
+                showMessage(`Connected: ${account.slice(0, 6)}...${account.slice(-4)}`, 'success');
+                
+                // Proceed with signup/login
+                const currentTab = document.getElementById('loginTab').style.display === 'block' ? 'login' : 'signup';
+                if (currentTab === 'login') {
+                    // For login with wallet, would need wallet signature verification
+                    showMessage('Wallet connection for login coming soon', 'error');
+                } else {
+                    // For signup with wallet, proceed to form
+                    document.getElementById('signupEmail').focus();
+                }
+            } catch (error) {
+                showMessage('Wallet connection failed', 'error');
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('authModal').addEventListener('click', (e) => {
+            if (e.target.id === 'authModal') {
+                closeAuthModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+name = "aura-ai"
+main = "src/index.ts"
+compatibility_date = "2025-11-30"
+
+[[durable_objects]]
+name = "AURA_AI_SERVER"
+class_name = "AuraAiServer"
+
+type = "javascript" # or "modules" if using TS modules
