@@ -1,53 +1,622 @@
-# NullShot Typescript MCP Template
+# Aura AI - Social AI Network & Token Economy Platform
 
-A template repository for bootstrapping MCPs (Model Context Protocol) for the null-shot/typescript-agent-framework.
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/KezzyNgotho/Aura-ai)
 
-## Getting Started
+**A transparent, collaborative AI recommendation engine built on the Model Context Protocol (MCP) with integrated token economy, squad-based collaboration, and blockchain rewards.**
 
-### Setup the repository
+## 🌟 Live Demo
 
-**Option A: Use nullshot cli**
+**Production URL:** https://aura-ai.keziengotho18.workers.dev
 
+## 🚀 Features
 
-You can create a new project by following this interactive prompt:
+### 🤖 Core AI Capabilities
+- **Transparent AI Reasoning**: Complete reasoning process visibility (not a black box)
+- **Multi-Category Insights**: Finance, Learning, Business, Health, Technology, and more
+- **Real-time Collaboration**: Comments, voting, and squad-based discussions
+- **Intelligent Squad Agents**: AI-powered squad management and optimization
+- **OpenAI GPT Integration**: Powered by latest GPT models for intelligent responses
+- **Query Processing**: Context-aware query processing with squad intelligence
 
-```bash
-npx @nullshot/cli create mcp
+### 👥 Social Platform
+- **Squad Creation & Management**: Form collaborative groups with shared goals
+- **Real-time Chat**: Persistent chat history with Cloudflare KV storage
+- **User Profiles**: Wallet-based authentication with MetaMask integration
+- **Token Economy**: Earn AURA tokens for engagement and contributions
+- **Activity Tracking**: Real-time user activity and contribution monitoring
+
+### 💰 Token Economy & Rewards
+- **AURA Token System**: Native platform token for engagement rewards
+- **Multiple Distribution Methods**:
+  - Equal distribution among squad members
+  - Contribution-based weighting (by activity level)
+  - Activity-based rewards (by message count and engagement)
+- **USDC Integration**: Convert AURA to USDC on Base chain
+- **Smart Contract Rewards**: On-chain reward minting and distribution
+- **Reward Analytics**: Track earnings and distribution history
+
+### ⛓️ Blockchain Integration
+- **MetaMask Wallet**: Seamless Web3 wallet integration
+- **Base Chain**: Ethereum L2 for fast, low-cost transactions
+- **Smart Contracts**: Custom contracts for token economy
+- **ThirdWeb Integration**: Simplified contract deployment and management
+- **OpenZeppelin Libraries**: Battle-tested smart contract components
+
+## 🛠️ Technology Stack
+
+### Backend & Infrastructure
+- **Cloudflare Workers**: Serverless edge computing platform
+- **Hono.js**: Fast, lightweight web framework for Cloudflare Workers
+- **TypeScript**: Full type safety and modern JavaScript features
+- **Cloudflare KV**: High-performance key-value storage for chat history and user data
+- **Cloudflare Durable Objects**: Real-time collaborative state management
+- **Wrangler CLI**: Cloudflare Workers development and deployment tool
+
+### 🤖 AI & MCP Integration
+- **Model Context Protocol (MCP)**: Industry-standard protocol for AI agent communication
+- **NullShot MCP Framework**: Advanced MCP implementation with testing utilities
+- **NullShot TypeScript Agent Framework**: Build intelligent agents powered by LLMs
+- **OpenAI GPT API**: Latest GPT models for intelligent responses
+- **Intelligent Squad Agents**: AI-powered squad optimization and management
+- **Query Processor**: Context-aware query processing with squad intelligence
+
+### ⛓️ Blockchain & Smart Contracts
+- **ThirdWeb**: Simplified Web3 development and deployment platform
+- **Hardhat**: Ethereum development environment for smart contracts
+- **Solidity**: Smart contract development language
+- **OpenZeppelin**: Battle-tested smart contract libraries
+- **Base Chain**: Ethereum Layer 2 for fast, low-cost transactions
+- **MetaMask**: Web3 wallet integration
+- **Ethers.js**: Ethereum JavaScript library
+
+### 🎨 Frontend & UI
+- **Vanilla JavaScript**: No heavy frameworks, fast and lightweight
+- **Server-Side Rendering**: HTML templates with embedded JavaScript
+- **CSS3**: Modern styling with gradients and animations
+- **Font Awesome**: Rich icon library for UI elements
+- **Google Fonts**: Poppins typography for modern design
+- **Responsive Design**: Mobile-first approach with adaptive layouts
+
+### 🧪 Development & Testing
+- **Vitest**: Fast unit testing framework
+- **ESLint & Prettier**: Code quality and formatting tools
+- **MCP Inspector**: Debug and monitor MCP communications
+- **TypeScript Compiler**: Advanced type checking and compilation
+- **Git**: Version control with GitHub integration
+
+### 📦 Package Management & Build Tools
+- **pnpm**: Fast, disk-efficient package manager
+- **Node.js 18+**: JavaScript runtime environment
+- **npm scripts**: Build and development automation
+- **Environment Variables**: Secure configuration management
+
+## 📁 Project Structure
+
+```
+├── src/
+│   ├── aura-ai-server.ts          # Main server with all features
+│   ├── auth-service.ts             # MetaMask wallet authentication
+│   ├── squad-service.ts            # Squad creation and management
+│   ├── token-service.ts            # AURA token economy
+│   ├── ai-service.ts               # OpenAI GPT integration
+│   ├── intelligent-squad-agent.ts  # AI squad optimization
+│   ├── smart-contract-integration.ts # Blockchain integration
+│   ├── edenlayer-integration.ts    # Eden AI layer
+│   ├── query-processor-squad.ts    # Squad query processing
+│   ├── tools.ts                    # MCP tools
+│   ├── resources.ts                # MCP resources
+│   ├── prompts.ts                  # MCP prompts
+│   └── env.d.ts                    # TypeScript environment types
+├── contracts/                      # Solidity smart contracts
+│   ├── AuraToken.sol              # AURA token contract
+│   ├── RewardsMinter.sol          # Reward distribution
+│   ├── TokenConverter.sol         # AURA to USDC conversion
+│   └── AgentMarketplace.sol       # AI agent marketplace
+├── scripts/                        # Deployment and utility scripts
+│   ├── deploy-contracts.js        # Contract deployment
+│   ├── hardhat-deploy.js          # Hardhat deployment
+│   └── thirdweb-deploy.js         # ThirdWeb deployment
+├── test/                          # Test suites
+│   ├── client.test.ts             # Client-side tests
+│   └── *.test.ts                  # Additional test files
+├── artifacts/                     # Compiled contract artifacts
+├── public/                        # Static assets
+├── AURA_AI_DOCS.md               # Detailed documentation
+├── wrangler.jsonc                 # Cloudflare Workers config
+├── package.json                   # Node.js dependencies
+├── tsconfig.json                  # TypeScript configuration
+├── vitest.config.mts              # Testing configuration
+└── README.md                      # This file
 ```
 
-**Option B: Use deploy to cloudflare button**
+## 🚀 Quick Start
 
-The following button will create a new repo in your organization and setup teh CI/CD using Cloudflare:
+### Prerequisites
+- **Node.js 18+**: JavaScript runtime
+- **pnpm**: Package manager (`npm install -g pnpm`)
+- **MetaMask**: Browser wallet extension (for Web3 features)
+- **Git**: Version control system
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/null-labs/mcp-template)
+### Installation
 
-*NOTE: The configuration only needs `npm run deploy` for the Deploy command to work*
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/KezzyNgotho/Aura-ai.git
+   cd aura-ai
+   ```
 
-**Option C: Github Template**
+2. **Install dependencies**
+   ```bash
+   pnpm install
+   ```
 
-1. Click the "Use this template" button at the top of this repository
-2. Clone your new repository
+3. **Environment Setup**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration (see Configuration section)
+   ```
 
-The above will boostrap a serverless cloudflare compatible MCP Server with the following urls:
+4. **Set Cloudflare Secrets**
+   ```bash
+   # Set OpenAI API key as secret
+   npx wrangler secret put GPT_API_KEY
+   # Enter your OpenAI API key when prompted
+   ```
 
-* /ws - Websocket connection endpoint
-* /sse - SSE connection endpoint
+### Development
 
-## Features
+```bash
+# Start development server with MCP Inspector
+pnpm run dev
 
-- **WebSocket Client Support**: Includes official [WebSocket client](https://github.com/modelcontextprotocol/typescript-sdk/blob/main/src/client/websocket.ts) for real-time bidirectional communication
-- **SSE Client Support**: Includes [Server-Sent Events client](https://github.com/modelcontextprotocol/typescript-sdk/blob/main/src/client/sse.ts) for server-to-client streaming
-- **MCP Inspector**: Debug and monitor your MCP during development
-- **Cloudflare Workers Integration**: Built on Cloudflare Workers for edge computing capabilities
-- **Integration Testing Suite**: Websocket and SSE testing tools to do full integration testing with local miniflare services (D1/KV/etc) for ease of testing features without mocking.
+# Start only the worker
+pnpm start
 
-## Available Scripts
+# Run tests
+pnpm test
 
-- `pnpm run dev`: Runs both the MCP Inspector (port 6274) and Cloudflare Worker (port 8787) concurrently
-- `pnpm start`: Runs only the Cloudflare Worker (port 8787)
-- `pnpm test`: Runs tests with Vitest
-- `pnpm run deploy`: Deploys your MCP to Cloudflare Workers
-- `pnpm run cf-typegen`: Generates TypeScript types for Cloudflare Workers (run this everytime you add new changes to wrangler.jsonc)
+# Generate Cloudflare types
+pnpm run cf-typegen
+
+# Lint code
+pnpm run lint
+
+# Format code
+pnpm run format
+```
+
+### Deployment
+
+```bash
+# Deploy to Cloudflare Workers
+pnpm run deploy
+
+# Deploy smart contracts
+pnpm run deploy:contracts
+```
+
+## 🔧 Configuration
+
+### Environment Variables (.env)
+
+```env
+# ThirdWeb Configuration (optional - browser auth used if empty)
+THIRDWEB_SECRET_KEY=your_thirdweb_secret_key_here
+
+# Private Key for Contract Deployment (REQUIRED)
+# Format: 0x + exactly 64 hex characters (32 bytes)
+# This is your MetaMask private key for contract deployment
+PRIVATE_KEY=0x_your_private_key_here
+
+# Optional: Additional configuration
+NODE_ENV=development
+```
+
+### Cloudflare Secrets
+
+Set these using Wrangler CLI:
+```bash
+# OpenAI API key for AI responses
+npx wrangler secret put GPT_API_KEY
+
+# ThirdWeb secret key (optional)
+npx wrangler secret put THIRDWEB_SECRET_KEY
+```
+
+### Smart Contract Deployment
+
+1. **Using ThirdWeb (Recommended)**
+   ```bash
+   pnpm run deploy:thirdweb
+   ```
+
+2. **Using Hardhat**
+   ```bash
+   pnpm run deploy:hardhat
+   ```
+
+## 🎯 Key Components
+
+### Squad Management System
+- **Create Squads**: Form collaborative groups with shared objectives
+- **Invite Members**: Add participants with role-based permissions
+- **AI Optimization**: Intelligent squad recommendations and optimization
+- **Activity Tracking**: Real-time monitoring of member contributions
+- **Reward Distribution**: Automated token distribution based on activity
+
+### Advanced Token Economy
+- **AURA Token**: Native platform currency earned through engagement
+- **Multi-Algorithm Distribution**:
+  - **Equal**: Fair distribution to all active members
+  - **Contribution**: Weighted by quality and quantity of contributions
+  - **Activity**: Based on message count and interaction levels
+- **USDC Conversion**: Seamless conversion to stablecoin on Base
+- **Smart Contract Minting**: On-chain reward verification and distribution
+
+### AI Integration Layer
+- **OpenAI GPT**: Latest models for intelligent, context-aware responses
+- **MCP Protocol**: Industry-standard AI agent communication
+- **Squad Intelligence**: AI-powered squad management and recommendations
+- **Query Processing**: Advanced natural language processing
+- **Transparent Reasoning**: Complete visibility into AI decision-making
+
+### Blockchain Infrastructure
+- **MetaMask Integration**: Seamless Web3 wallet connectivity
+- **Base Chain**: High-performance Ethereum L2 network
+- **Custom Smart Contracts**: Purpose-built contracts for token economy
+- **ThirdWeb Tools**: Simplified Web3 development and deployment
+- **OpenZeppelin Security**: Battle-tested contract components
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+pnpm test
+
+# Run with coverage report
+pnpm test --coverage
+
+# Run integration tests with MCP
+pnpm run test:integration
+
+# Run specific test file
+pnpm test src/squad-service.test.ts
+```
+
+## 📚 API Endpoints
+
+### Authentication
+- `POST /api/auth/signup` - User registration with wallet
+- `POST /api/auth/login` - User login with wallet
+
+### Squad Management
+- `POST /api/squad/create` - Create new collaborative squad
+- `GET /api/squad/:squadId` - Get squad details and members
+- `POST /api/squad/:squadId/join` - Join existing squad
+- `POST /api/squad/:squadId/distribute-rewards` - Distribute AURA rewards
+
+### AI & Queries
+- `POST /api/query` - Process AI queries with context
+- `GET /api/ai/squad/:squadId/health` - Squad AI health metrics
+- `GET /api/ai/member/:userId/profile` - AI-powered member profiling
+
+### Token Economy
+- `GET /api/rewards/pending` - Get pending reward distributions
+- `GET /api/rewards/:rewardId` - Get specific reward details
+- `GET /api/rewards/conversion-rate` - AURA to USDC conversion rates
+
+### Blockchain Integration
+- `GET /api/contracts/network` - Network information
+- `GET /api/contracts/balance/:address` - Token balance queries
+- `GET /api/contracts/reputation/:address` - Reputation scores
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. **Fork the repository**
+2. **Create a feature branch**: `git checkout -b feature/your-feature`
+3. **Commit changes**: `git commit -m 'Add your feature'`
+4. **Push to branch**: `git push origin feature/your-feature`
+5. **Open a Pull Request**
+
+### Development Guidelines
+- Use TypeScript for all new code
+- Follow existing code style and patterns
+- Add tests for new features
+- Update documentation as needed
+- Ensure MCP compliance for AI features
+- Test smart contract interactions thoroughly
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) for details
+
+## 🙏 Acknowledgments
+
+### Core Technologies
+- **NullShot**: MCP framework and TypeScript Agent Framework
+- **Cloudflare**: Workers, KV, and Durable Objects infrastructure
+- **OpenAI**: GPT model integration for AI responses
+- **Model Context Protocol**: Industry-standard AI agent communication
+
+### Blockchain & Web3
+- **ThirdWeb**: Simplified Web3 development platform
+- **Base**: High-performance Ethereum Layer 2
+- **OpenZeppelin**: Secure smart contract libraries
+- **MetaMask**: Leading Web3 wallet solution
+
+### Development Tools
+- **Hono.js**: Fast web framework for edge computing
+- **Vitest**: Modern testing framework
+- **ESLint & Prettier**: Code quality tools
+- **Wrangler**: Cloudflare development CLI
+
+## 🔗 Links
+
+- **🌐 Live Demo**: https://aura-ai.keziengotho18.workers.dev
+- **📦 GitHub Repository**: https://github.com/KezzyNgotho/Aura-ai
+- **📚 Documentation**: [AURA_AI_DOCS.md](AURA_AI_DOCS.md)
+- **🔗 MCP Protocol**: https://modelcontextprotocol.io
+- **🚀 NullShot Framework**: https://nullshot.ai
+- **⚡ Cloudflare Workers**: https://workers.cloudflare.com
+- **⛓️ Base Chain**: https://base.org
+- **🎨 ThirdWeb**: https://thirdweb.com
+
+---
+
+## 🏗️ Architecture Overview
+
+### MCP Server Implementation
+This project uses **NullShot's TypeScript Agent Framework** with the **Model Context Protocol (MCP)** for AI agent communication. The server extends `McpHonoServerDO` to combine MCP functionality with Hono.js routing.
+
+### Key Architectural Components
+
+1. **AuraAiServer**: Main server class extending McpHonoServerDO
+2. **Service Layer**: Modular services for auth, squads, tokens, AI
+3. **Smart Contracts**: Solidity contracts for token economy
+4. **MCP Integration**: Tools, resources, and prompts for AI interaction
+
+### Data Flow
+1. User interacts via MetaMask wallet authentication
+2. Requests routed through Hono.js on Cloudflare Workers
+3. AI queries processed via MCP protocol with OpenAI GPT
+4. Squad management handled by intelligent agents
+5. Rewards distributed via smart contracts on Base chain
+
+---
+
+**Built with ❤️ using NullShot MCP Framework, Cloudflare Workers, and Ethereum**
+- **NullShot MCP Framework**: Advanced MCP implementation with testing utilities
+- **OpenAI GPT Integration**: Powered by GPT models for intelligent responses
+- **Intelligent Squad Agents**: AI-powered squad optimization and management
+
+### Blockchain & Smart Contracts
+- **ThirdWeb**: Simplified Web3 development and deployment
+- **Hardhat**: Ethereum development environment for smart contracts
+- **Solidity**: Smart contract development language
+- **OpenZeppelin**: Battle-tested smart contract libraries
+- **Base Chain**: Ethereum Layer 2 for fast transactions
+
+### Frontend & UI
+- **Vanilla JavaScript**: No heavy frameworks, fast and lightweight
+- **Server-Side Rendering**: HTML templates with embedded JavaScript
+- **CSS3**: Modern styling with gradients and animations
+- **Font Awesome**: Rich icon library
+- **Google Fonts**: Poppins typography
+
+### Development & Testing
+- **Vitest**: Fast unit testing framework
+- **ESLint & Prettier**: Code quality and formatting
+- **Wrangler**: Cloudflare Workers CLI and deployment tool
+- **MCP Inspector**: Debug and monitor MCP communications
+
+## 📁 Project Structure
+
+```
+├── src/
+│   ├── aura-ai-server.ts          # Main server with all features
+│   ├── auth-service.ts             # MetaMask wallet authentication
+│   ├── squad-service.ts            # Squad creation and management
+│   ├── token-service.ts            # AURA token economy
+│   ├── ai-service.ts               # OpenAI GPT integration
+│   ├── intelligent-squad-agent.ts  # AI squad optimization
+│   ├── smart-contract-integration.ts # Blockchain integration
+│   ├── edenlayer-integration.ts    # Eden AI layer
+│   ├── query-processor-squad.ts    # Squad query processing
+│   ├── tools.ts                    # MCP tools
+│   ├── resources.ts                # MCP resources
+│   ├── prompts.ts                  # MCP prompts
+│   └── env.d.ts                    # TypeScript environment types
+├── contracts/                      # Solidity smart contracts
+│   ├── AuraToken.sol              # AURA token contract
+│   ├── RewardsMinter.sol          # Reward distribution
+│   ├── TokenConverter.sol         # AURA to USDC conversion
+│   └── AgentMarketplace.sol       # AI agent marketplace
+├── scripts/                        # Deployment and utility scripts
+├── test/                          # Test suites
+├── artifacts/                     # Compiled contract artifacts
+├── public/                        # Static assets
+└── wrangler.jsonc                 # Cloudflare Workers config
+```
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+
+- pnpm package manager
+- MetaMask wallet (for Web3 features)
+- Git
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/KezzyNgotho/Aura-ai.git
+   cd aura-ai
+   ```
+
+2. **Install dependencies**
+   ```bash
+   pnpm install
+   ```
+
+3. **Environment Setup**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+4. **Set Cloudflare Secrets**
+   ```bash
+   # Set OpenAI API key as secret
+   npx wrangler secret put GPT_API_KEY
+   # Enter your OpenAI API key when prompted
+   ```
+
+### Development
+
+```bash
+# Start development server with MCP Inspector
+pnpm run dev
+
+# Start only the worker
+pnpm start
+
+# Run tests
+pnpm test
+
+# Generate Cloudflare types
+pnpm run cf-typegen
+```
+
+### Deployment
+
+```bash
+# Deploy to Cloudflare Workers
+pnpm run deploy
+```
+
+## 🔧 Configuration
+
+### Environment Variables (.env)
+
+```env
+# ThirdWeb Configuration
+THIRDWEB_SECRET_KEY=your_thirdweb_secret_key
+
+# Private Key for Contract Deployment
+# Format: 0x + exactly 64 hex characters
+PRIVATE_KEY=0x_your_private_key_here
+```
+
+### Cloudflare Secrets
+
+Set these using Wrangler CLI:
+```bash
+npx wrangler secret put GPT_API_KEY
+npx wrangler secret put THIRDWEB_SECRET_KEY
+```
+
+## 🎯 Key Components
+
+### Squad Management
+- Create collaborative squads with shared objectives
+- Invite members and manage permissions
+- AI-powered squad optimization suggestions
+- Real-time activity tracking
+
+### Token Economy
+- Earn AURA tokens through engagement
+- Multiple reward distribution algorithms
+- Convert AURA to USDC on Base chain
+- Smart contract-based reward minting
+
+### AI Integration
+- OpenAI GPT-powered responses
+- Intelligent squad agent recommendations
+- Query processing with context awareness
+- Transparent reasoning display
+
+### Blockchain Features
+- MetaMask wallet integration
+- Smart contract deployment on Base
+- Token minting and distribution
+- On-chain reward verification
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+pnpm test
+
+# Run with coverage
+pnpm test --coverage
+
+# Integration testing with MCP
+pnpm run test:integration
+```
+
+## 📚 API Endpoints
+
+### Authentication
+- `POST /api/auth/signup` - User registration
+- `POST /api/auth/login` - User login
+
+### Squad Management
+- `POST /api/squad/create` - Create new squad
+- `GET /api/squad/:squadId` - Get squad details
+- `POST /api/squad/:squadId/distribute-rewards` - Distribute rewards
+
+### AI & Queries
+- `POST /api/query` - Process AI queries
+- `GET /api/ai/squad/:squadId/health` - Squad AI health check
+
+### Token Economy
+- `GET /api/rewards/pending` - Get pending rewards
+- `GET /api/rewards/conversion-rate` - Token conversion rates
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Commit changes: `git commit -m 'Add your feature'`
+4. Push to branch: `git push origin feature/your-feature`
+5. Open a Pull Request
+
+### Development Guidelines
+- Use TypeScript for all new code
+- Follow existing code style and patterns
+- Add tests for new features
+- Update documentation as needed
+- Ensure MCP compliance for AI features
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) for details
+
+## 🙏 Acknowledgments
+
+- **NullShot**: MCP framework and infrastructure
+- **Cloudflare**: Workers and edge computing platform
+- **OpenAI**: GPT model integration
+- **ThirdWeb**: Web3 development tools
+- **Base**: Ethereum Layer 2 network
+- **OpenZeppelin**: Smart contract libraries
+
+## 🔗 Links
+
+- **Live Demo**: https://aura-ai.keziengotho18.workers.dev
+- **GitHub**: https://github.com/KezzyNgotho/Aura-ai
+- **Documentation**: See [AURA_AI_DOCS.md](AURA_AI_DOCS.md) for detailed documentation
+- **MCP Protocol**: https://modelcontextprotocol.io
+- **NullShot Framework**: https://nullshot.ai
+
+---
+
+**Built with ❤️ on Cloudflare Workers & Ethereum**
 
 ## Usage Overview
 
