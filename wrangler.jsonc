@@ -1,0 +1,37 @@
+{
+  "name": "aura-ai",
+  "main": "src/index.ts",
+  "compatibility_date": "2024-01-01",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "AURA_AI_SERVER",
+        "class_name": "AuraAiServer"
+      }
+    ]
+  },
+  "kv_namespaces": [
+    {
+      "binding": "AURA_KV",
+      "id": "d6b756131b584ae79b8c0ccbfcf0f6a9",
+      "preview_id": "d6b756131b584ae79b8c0ccbfcf0f6a9"
+    }
+  ],
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "AuraAiServer"
+      ]
+    }
+  ],
+  "vars": {
+  },
+  "services": [],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
