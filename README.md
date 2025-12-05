@@ -1,8 +1,21 @@
-# Aura AI - Social AI Network & Token Economy Platform
+# Aura AI - NullShot MCP-Powered Social AI Network
 
+[![Built with NullShot](https://img.shields.io/badge/Built%20with-NullShot-000000?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzMzMzMzMyIvPgo8dGV4dCB4PSIxMiIgeT0iMTUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPk48L3RleHQ+Cjwvc3ZnPg==)](https://nullshot.ai)
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/KezzyNgotho/Aura-ai)
+[![MCP Compliant](https://img.shields.io/badge/MCP-Compliant-blue?style=for-the-badge)](https://modelcontextprotocol.io)
 
-**A transparent, collaborative AI recommendation engine built on the Model Context Protocol (MCP) with integrated token economy, squad-based collaboration, and blockchain rewards.**
+**A cutting-edge AI social platform built on NullShot's TypeScript Agent Framework and Model Context Protocol (MCP), featuring transparent AI reasoning, collaborative squad intelligence, and blockchain-powered token economy.**
+
+## 🧠 Powered by NullShot MCP Framework
+
+This project leverages **NullShot's advanced MCP implementation** to create intelligent, collaborative AI agents that power a transparent social network. Built with the industry-standard Model Context Protocol for seamless AI agent communication and coordination.
+
+### Key NullShot Features Used:
+- **McpHonoServerDO**: Combined MCP server with Hono.js routing for Cloudflare Workers
+- **Intelligent Squad Agents**: AI-powered squad optimization and management
+- **MCP Tools & Resources**: Standardized AI agent communication protocols
+- **TypeScript Agent Framework**: Advanced LLM-powered agent development
+- **Integration Testing**: Comprehensive MCP protocol testing utilities
 
 ## 🌟 Live Demo
 
@@ -10,7 +23,7 @@
 
 ## 🚀 Features
 
-### 🤖 Core AI Capabilities
+### 🤖 NullShot MCP-Powered AI Capabilities
 - **Transparent AI Reasoning**: Complete reasoning process visibility (not a black box)
 - **Multi-Category Insights**: Finance, Learning, Business, Health, Technology, and more
 - **Real-time Collaboration**: Comments, voting, and squad-based discussions
@@ -42,23 +55,53 @@
 - **ThirdWeb Integration**: Simplified contract deployment and management
 - **OpenZeppelin Libraries**: Battle-tested smart contract components
 
+### 👥 Social Platform
+- **Squad Creation & Management**: Form collaborative groups with shared goals
+- **Real-time Chat**: Persistent chat history with Cloudflare KV storage
+- **User Profiles**: Wallet-based authentication with MetaMask integration
+- **Token Economy**: Earn AURA tokens for engagement and contributions
+- **Activity Tracking**: Real-time user activity and contribution monitoring
+
+### 💰 Token Economy & Rewards
+- **AURA Token System**: Native platform token for engagement rewards
+- **Multiple Distribution Methods**:
+  - Equal distribution among squad members
+  - Contribution-based weighting (by activity level)
+  - Activity-based rewards (by message count and engagement)
+- **USDC Integration**: Convert AURA to USDC on Base chain
+- **Smart Contract Rewards**: On-chain reward minting and distribution
+- **Reward Analytics**: Track earnings and distribution history
+
+### ⛓️ Blockchain Integration
+- **MetaMask Wallet**: Seamless Web3 wallet integration
+- **Base Chain**: Ethereum L2 for fast, low-cost transactions
+- **Smart Contracts**: Custom contracts for token economy
+- **ThirdWeb Integration**: Simplified contract deployment and management
+- **OpenZeppelin Libraries**: Battle-tested smart contract components
+
 ## 🛠️ Technology Stack
 
-### Backend & Infrastructure
+### 🚀 Core Framework - NullShot MCP
+- **NullShot MCP Framework**: Advanced Model Context Protocol implementation
+- **NullShot TypeScript Agent Framework**: Build intelligent LLM-powered agents
+- **McpHonoServerDO**: Combined MCP server with Hono.js for Cloudflare Workers
+- **MCP Tools & Resources**: Standardized AI agent communication protocols
+- **Integration Testing**: Comprehensive MCP protocol testing utilities
+- **Intelligent Squad Agents**: AI-powered squad optimization and management
+
+### 🤖 AI Integration
+- **Model Context Protocol (MCP)**: Industry-standard AI agent communication
+- **OpenAI GPT API**: Latest GPT models for intelligent responses
+- **Query Processor**: Context-aware query processing with squad intelligence
+- **Transparent Reasoning**: Complete AI decision-making visibility
+
+### ☁️ Backend & Infrastructure
 - **Cloudflare Workers**: Serverless edge computing platform
 - **Hono.js**: Fast, lightweight web framework for Cloudflare Workers
 - **TypeScript**: Full type safety and modern JavaScript features
 - **Cloudflare KV**: High-performance key-value storage for chat history and user data
 - **Cloudflare Durable Objects**: Real-time collaborative state management
 - **Wrangler CLI**: Cloudflare Workers development and deployment tool
-
-### 🤖 AI & MCP Integration
-- **Model Context Protocol (MCP)**: Industry-standard protocol for AI agent communication
-- **NullShot MCP Framework**: Advanced MCP implementation with testing utilities
-- **NullShot TypeScript Agent Framework**: Build intelligent agents powered by LLMs
-- **OpenAI GPT API**: Latest GPT models for intelligent responses
-- **Intelligent Squad Agents**: AI-powered squad optimization and management
-- **Query Processor**: Context-aware query processing with squad intelligence
 
 ### ⛓️ Blockchain & Smart Contracts
 - **ThirdWeb**: Simplified Web3 development and deployment platform
@@ -599,12 +642,23 @@ MIT License - see [LICENSE](LICENSE) for details
 
 ## 🙏 Acknowledgments
 
-- **NullShot**: MCP framework and infrastructure
-- **Cloudflare**: Workers and edge computing platform
-- **OpenAI**: GPT model integration
-- **ThirdWeb**: Web3 development tools
-- **Base**: Ethereum Layer 2 network
-- **OpenZeppelin**: Smart contract libraries
+### 🚀 Core Framework & Infrastructure
+- **NullShot**: MCP framework, TypeScript Agent Framework, and advanced MCP implementation
+- **Model Context Protocol**: Industry-standard protocol for AI agent communication
+- **Cloudflare**: Workers, KV, Durable Objects, and edge computing infrastructure
+- **OpenAI**: GPT model integration for intelligent AI responses
+
+### ⛓️ Blockchain & Web3 Ecosystem
+- **ThirdWeb**: Simplified Web3 development and contract deployment platform
+- **Base**: High-performance Ethereum Layer 2 network
+- **OpenZeppelin**: Battle-tested smart contract libraries and security
+- **MetaMask**: Leading Web3 wallet solution for user authentication
+
+### 🛠️ Development Tools & Libraries
+- **Hono.js**: Fast and lightweight web framework for edge computing
+- **Vitest**: Modern testing framework for reliable code quality
+- **ESLint & Prettier**: Code quality and formatting standards
+- **Wrangler**: Cloudflare Workers CLI and deployment tooling
 
 ## 🔗 Links
 
@@ -616,7 +670,7 @@ MIT License - see [LICENSE](LICENSE) for details
 
 ---
 
-**Built with ❤️ on Cloudflare Workers & Ethereum**
+**Built with ❤️ using NullShot MCP Framework, Cloudflare Workers, and Ethereum**
 
 ## Usage Overview
 
