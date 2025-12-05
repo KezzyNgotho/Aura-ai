@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Squad - AI-Powered Team Collaboration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: #1a1a1a;
+            background: #f8f9fa;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        header {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #6366f1;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #666;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #6366f1;
+        }
+
+        .cta-button {
+            background: #6366f1;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background: #4f46e5;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #6366f1;
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            border: 2px solid white;
+            color: white;
+            padding: 0.9rem 1.9rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Features Section */
+        .features {
+            max-width: 1200px;
+            margin: -3rem auto 4rem;
+            padding: 0 2rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* AI Agent Section */
+        .ai-section {
+            background: white;
+            padding: 4rem 2rem;
+            margin: 3rem 0;
+        }
+
+        .ai-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .ai-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #1a1a1a;
+        }
+
+        .ai-text p {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .ai-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .ai-features li {
+            padding: 0.8rem 0;
+            color: #666;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .ai-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #6366f1;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .ai-demo {
+            background: #f0f4ff;
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid #6366f1;
+        }
+
+        .ai-demo h4 {
+            color: #6366f1;
+            margin-bottom: 1rem;
+        }
+
+        .ai-demo code {
+            background: white;
+            padding: 1rem;
+            border-radius: 6px;
+            display: block;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Use Cases Section */
+        .use-cases {
+            background: #f8f9fa;
+            padding: 4rem 2rem;
+        }
+
+        .use-cases-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .use-cases h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .use-case {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border-top: 3px solid #6366f1;
+        }
+
+        .use-case h3 {
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        .use-case p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .use-case .benefit {
+            background: #f0f4ff;
+            padding: 0.8rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #6366f1;
+            margin-top: 1rem;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 4rem 2rem;
+        }
+
+        .stats-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat {
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 4rem 2rem;
+        }
+
+        .pricing-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .pricing-card.featured {
+            border-color: #6366f1;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+            transform: scale(1.05);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            color: #6366f1;
+            font-weight: bold;
+            margin: 1.5rem 0;
+        }
+
+        .price-period {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin: 2rem 0;
+            color: #666;
+        }
+
+        .pricing-features li {
+            padding: 0.8rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .pricing-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #6366f1;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .ai-content {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">🚀 Aura Squad</div>
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#ai-agent">AI Agent</a></li>
+                <li><a href="#use-cases">Use Cases</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+            <button class="cta-button" onclick="window.location.href='/dashboard'">Dashboard</button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>🤖 AI-Powered Team Collaboration</h1>
+            <p>Form squads instantly. Collaborate seamlessly. Earn rewards automatically. Powered by intelligent AI agents.</p>
+            <div class="hero-buttons">
+                <a href="/dashboard" class="btn-primary">Get Started Free</a>
+                <a href="#ai-agent" class="btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Cards -->
+    <section class="features">
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3>Instant Squads</h3>
+                <p>Form collaborative teams in seconds. Invite members, assign roles, start collaborating immediately.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Real-Time Chat</h3>
+                <p>Communicate with your team in real-time. Share files, react with emojis, build team culture with memes.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>Intelligent Agent</h3>
+                <p>AI analyzes contributions, optimizes rewards, predicts success, and recommends improvements automatically.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Auto Rewards</h3>
+                <p>Earn tokens for every action. AI optimizes fair distribution based on quality, effort, and impact.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Smart Analytics</h3>
+                <p>Track squad health, member contributions, productivity metrics, and earnings in real-time.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⛓️</div>
+                <h3>On-Chain Settlement</h3>
+                <p>Transparent, trustless payments on smart contracts. Withdraw anytime to fiat or crypto.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Agent Section -->
+    <section class="ai-section" id="ai-agent">
+        <div class="ai-content">
+            <div class="ai-text">
+                <h2>Meet Your Intelligent Agent</h2>
+                <p>Aura Squad's AI agent understands your team better than you do. It continuously learns from contributions, analyzes patterns, and provides insights that help you succeed.</p>
+                
+                <h4 style="margin-top: 2rem; margin-bottom: 1rem; color: #1a1a1a;">What the AI Agent Does:</h4>
+                <ul class="ai-features">
+                    <li><strong>Squad Health Analysis</strong> - Identifies issues, suggests improvements, calculates health score</li>
+                    <li><strong>Member Profiling</strong> - Analyzes skills, detects specializations, recommends optimal roles</li>
+                    <li><strong>Smart Matching</strong> - Finds perfect team members for your squad based on skills & experience</li>
+                    <li><strong>Reward Optimization</strong> - Ensures fair payment distribution based on quality & effort</li>
+                    <li><strong>Success Prediction</strong> - Forecasts squad success probability and recommends actions</li>
+                </ul>
+            </div>
+
+            <div class="ai-demo">
+                <h4>💡 AI Agent in Action</h4>
+                <code>
+# Analyze your squad health
+POST /api/ai/squad/squad-123/health
+
+Response:
+{
+  "healthScore": 78,
+  "productivity": 75%,
+  "issues": ["User456 inactive"],
+  "suggestions": [
+    "Onboard User456 with a task",
+    "Promote contributor to assistant"
+  ]
+}
+
+# Optimize rewards
+POST /api/ai/squad/squad-123/optimize-rewards
+{
+  "totalReward": 500
+}
+
+Result: 14% efficiency gain through
+intelligent distribution
+                </code>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="use-cases" id="use-cases">
+        <div class="use-cases-content">
+            <h2 class="section-title">Why Teams Love Aura Squad</h2>
+            <div class="use-case-grid">
+                <div class="use-case">
+                    <h3>🚀 Startups</h3>
+                    <p>Assemble founding teams instantly. Collaborate with advisors. Fair equity distribution through smart contracts.</p>
+                    <div class="benefit">Save $50k/month on hiring overhead</div>
+                </div>
+
+                <div class="use-case">
+                    <h3>🎨 Creators</h3>
+                    <p>Form production squads for content. Manage team earnings transparently. Grow your empire 10x faster.</p>
+                    <div class="benefit">200-400x cost savings vs hiring</div>
+                </div>
+
+                <div class="use-case">
+                    <h3>💼 Consultants</h3>
+                    <p>Build expert squads for projects. Take on bigger clients. Scale without hiring.</p>
+                    <div class="benefit">9x earnings growth through collaboration</div>
+                </div>
+
+                <div class="use-case">
+                    <h3>🎓 Students</h3>
+                    <p>Collaborate on projects. Learn from experts. Earn money while studying.</p>
+                    <div class="benefit">Build real portfolio & get paid</div>
+                </div>
+
+                <div class="use-case">
+                    <h3>🤖 AI Agents</h3>
+                    <p>Deploy agents as squad members. They learn from humans and each other. Autonomous teams.</p>
+                    <div class="benefit">Next generation of work collaboration</div>
+                </div>
+
+                <div class="use-case">
+                    <h3>🌍 Freelancers</h3>
+                    <p>Team up on larger projects. Share workload. Increase hourly rate through specialization.</p>
+                    <div class="benefit">5-10x productivity improvement</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-content">
+            <div class="stat">
+                <div class="stat-number">65T</div>
+                <div class="stat-label">Total Addressable Market</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">0ms</div>
+                <div class="stat-label">Squad Formation Time</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">400x</div>
+                <div class="stat-label">Cost Savings Potential</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">99.99%</div>
+                <div class="stat-label">Uptime Guarantee</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="pricing-content">
+            <h2>Simple, Transparent Pricing</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Starter</h3>
+                    <div class="price">Free</div>
+                    <div class="price-period">Forever</div>
+                    <ul class="pricing-features">
+                        <li>Create 1 squad</li>
+                        <li>Up to 5 members</li>
+                        <li>Basic chat</li>
+                        <li>Community support</li>
+                    </ul>
+                    <button class="cta-button" style="width: 100%;">Get Started</button>
+                </div>
+
+                <div class="pricing-card featured">
+                    <h3>Pro</h3>
+                    <div class="price">20%</div>
+                    <div class="price-period">Commission on earnings</div>
+                    <ul class="pricing-features">
+                        <li>Unlimited squads</li>
+                        <li>Unlimited members</li>
+                        <li>AI agent features</li>
+                        <li>Smart matching</li>
+                        <li>Reward optimization</li>
+                        <li>Health analytics</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <button class="cta-button" style="width: 100%;">Start Free Trial</button>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">Custom</div>
+                    <div class="price-period">Based on volume</div>
+                    <ul class="pricing-features">
+                        <li>Everything in Pro</li>
+                        <li>Custom branding</li>
+                        <li>API access</li>
+                        <li>Dedicated support</li>
+                        <li>SLA guarantee</li>
+                    </ul>
+                    <button class="cta-button" style="width: 100%;">Contact Sales</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <h3 style="margin-bottom: 2rem;">🚀 Aura Squad</h3>
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">Blog</a>
+                <a href="#">Docs</a>
+                <a href="#">GitHub</a>
+                <a href="#">Twitter</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+            <p>&copy; 2025 Aura Squad. Built for the future of collaborative work.</p>
+            <p style="margin-top: 1rem; opacity: 0.7;">Live on Cloudflare Workers | Powered by AI | Secured by Smart Contracts</p>
+        </div>
+    </footer>
+</body>
+</html>

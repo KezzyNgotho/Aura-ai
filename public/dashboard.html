@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Squad Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f4f8;
+            color: #1a1a1a;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 2rem 1rem;
+            position: fixed;
+            width: 250px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-menu a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            transition: background 0.3s;
+            opacity: 0.9;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,0.2);
+            opacity: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #6366f1;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #6366f1;
+            border: 2px solid #6366f1;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f4ff;
+        }
+
+        /* Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #6366f1;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-subtitle {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .card-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .badge-success {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Squads Section */
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #1a1a1a;
+        }
+
+        .squads-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .squad-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid #6366f1;
+        }
+
+        .squad-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .squad-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .squad-rating {
+            color: #f59e0b;
+            font-size: 1rem;
+        }
+
+        .squad-members {
+            display: flex;
+            gap: 0.25rem;
+            margin: 1rem 0;
+        }
+
+        .member-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .squad-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem 0;
+            border-top: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #6366f1;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 0.25rem;
+        }
+
+        .squad-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .squad-actions button {
+            flex: 1;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 6px;
+            background: #f0f4ff;
+            color: #6366f1;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .squad-actions button:hover {
+            background: #6366f1;
+            color: white;
+        }
+
+        /* AI Insights Card */
+        .ai-insights {
+            background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%);
+            border: 2px solid #6366f1;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .ai-insights h3 {
+            color: #6366f1;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ai-insights-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .insight-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .insight-item:last-child {
+            border-bottom: none;
+        }
+
+        .insight-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .insight-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-top: 0.25rem;
+        }
+
+        /* Activity Feed */
+        .activity-feed {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .activity-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f0f4ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .squads-list {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: start;
+                gap: 1rem;
+            }
+
+            .header-actions {
+                width: 100%;
+            }
+
+            .header-actions button {
+                flex: 1;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">🚀 Aura Squad</div>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active">📊 Dashboard</a></li>
+                <li><a href="#squads">👥 My Squads</a></li>
+                <li><a href="#ai">🤖 AI Insights</a></li>
+                <li><a href="#earnings">💰 Earnings</a></li>
+                <li><a href="#profile">👤 Profile</a></li>
+                <li><a href="#settings">⚙️ Settings</a></li>
+            </ul>
+            <hr style="opacity: 0.2; margin: 2rem 0;">
+            <p style="font-size: 0.85rem; opacity: 0.7; padding: 0 1rem;">v1.0 • Powered by AI • On-Chain</p>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div>
+                    <h1>Welcome back! 👋</h1>
+                    <p style="color: #666; margin-top: 0.25rem;">Your squads are performing great today</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary">+ New Squad</button>
+                    <button class="btn btn-secondary">🔔</button>
+                </div>
+            </div>
+
+            <!-- Top Stats -->
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-title">Total Earnings</div>
+                    <div class="card-value">1,240</div>
+                    <div class="card-subtitle">AURA tokens</div>
+                    <div class="card-badge badge-success">↑ 23% this week</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Active Squads</div>
+                    <div class="card-value">4</div>
+                    <div class="card-subtitle">collaborations</div>
+                    <div class="card-badge badge-success">2 hiring</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">AI Health Score</div>
+                    <div class="card-value">82</div>
+                    <div class="card-subtitle">out of 100</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 82%"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Success Rate</div>
+                    <div class="card-value">94%</div>
+                    <div class="card-subtitle">projects completed</div>
+                    <div class="card-badge badge-success">Top 5%</div>
+                </div>
+            </div>
+
+            <!-- AI Insights -->
+            <div class="ai-insights">
+                <h3>🤖 AI Agent Recommendations</h3>
+                <div class="ai-insights-content">
+                    <div class="insight-item">
+                        <div class="insight-label">For Marketing Squad:</div>
+                        <div class="insight-value">✨ Recruit 1 specialist in copywriting • Add "design" tag to job posting • Sarah's role: Promote to Assistant (reliability 89%)</div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="insight-label">Reward Optimization:</div>
+                        <div class="insight-value">💡 Applying AI distribution would increase fairness by 18% • Suggested: Leader 45% (was 40%), Contributors +12% • Efficiency gain: 14%</div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="insight-label">Team Health:</div>
+                        <div class="insight-value">⚠️ Design Squad: One inactive member (3 days) • Action: Assign micro-task to re-engage • Success probability: 78% (was 72%)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Squads Section -->
+            <div class="section" id="squads">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2 class="section-title">My Squads</h2>
+                    <button class="btn btn-primary">Create Squad</button>
+                </div>
+
+                <div class="squads-list">
+                    <!-- Squad 1 -->
+                    <div class="squad-card">
+                        <div class="squad-header">
+                            <div>
+                                <div class="squad-name">Marketing Squad</div>
+                                <div style="color: #999; font-size: 0.9rem; margin-top: 0.25rem;">Content & Social</div>
+                            </div>
+                            <div class="squad-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+
+                        <div class="squad-members">
+                            <div class="member-avatar">A</div>
+                            <div class="member-avatar">S</div>
+                            <div class="member-avatar">J</div>
+                            <div class="member-avatar" style="opacity: 0.5;">+2</div>
+                        </div>
+
+                        <div class="squad-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">5</div>
+                                <div class="stat-label">Members</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">2,450</div>
+                                <div class="stat-label">Earnings</div>
+                            </div>
+                        </div>
+
+                        <div class="squad-actions">
+                            <button>View</button>
+                            <button>Chat</button>
+                            <button>Stats</button>
+                        </div>
+                    </div>
+
+                    <!-- Squad 2 -->
+                    <div class="squad-card">
+                        <div class="squad-header">
+                            <div>
+                                <div class="squad-name">Design Squad</div>
+                                <div style="color: #999; font-size: 0.9rem; margin-top: 0.25rem;">UI/UX Specialists</div>
+                            </div>
+                            <div class="squad-rating">⭐⭐⭐⭐</div>
+                        </div>
+
+                        <div class="squad-members">
+                            <div class="member-avatar">A</div>
+                            <div class="member-avatar">M</div>
+                            <div class="member-avatar" style="opacity: 0.5;">+1</div>
+                        </div>
+
+                        <div class="squad-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">3</div>
+                                <div class="stat-label">Members</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">1,800</div>
+                                <div class="stat-label">Earnings</div>
+                            </div>
+                        </div>
+
+                        <div class="squad-actions">
+                            <button>View</button>
+                            <button>Chat</button>
+                            <button>Stats</button>
+                        </div>
+                    </div>
+
+                    <!-- Squad 3 -->
+                    <div class="squad-card">
+                        <div class="squad-header">
+                            <div>
+                                <div class="squad-name">Dev Squad</div>
+                                <div style="color: #999; font-size: 0.9rem; margin-top: 0.25rem;">Software Engineering</div>
+                            </div>
+                            <div class="squad-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+
+                        <div class="squad-members">
+                            <div class="member-avatar">A</div>
+                            <div class="member-avatar">K</div>
+                            <div class="member-avatar">R</div>
+                        </div>
+
+                        <div class="squad-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">3</div>
+                                <div class="stat-label">Members</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">3,100</div>
+                                <div class="stat-label">Earnings</div>
+                            </div>
+                        </div>
+
+                        <div class="squad-actions">
+                            <button>View</button>
+                            <button>Chat</button>
+                            <button>Stats</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="section" id="activity">
+                <h2 class="section-title">Recent Activity</h2>
+                <div class="activity-feed">
+                    <div class="activity-item">
+                        <div class="activity-icon">💬</div>
+                        <div class="activity-content">
+                            <div class="activity-title">Sarah posted in Marketing Squad</div>
+                            <div class="activity-time">2 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">🎉</div>
+                        <div class="activity-content">
+                            <div class="activity-title">Marketing Squad earned 500 AURA</div>
+                            <div class="activity-time">4 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">👤</div>
+                        <div class="activity-content">
+                            <div class="activity-title">Mike joined Design Squad</div>
+                            <div class="activity-time">6 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">🤖</div>
+                        <div class="activity-content">
+                            <div class="activity-title">AI Agent optimized squad rewards (+14% efficiency)</div>
+                            <div class="activity-time">8 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">⭐</div>
+                        <div class="activity-content">
+                            <div class="activity-title">You completed "Social Media Campaign"</div>
+                            <div class="activity-time">1 day ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Simple demo interactivity
+        document.querySelectorAll('.squad-actions button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                alert(`Action: ${e.target.textContent}`);
+            });
+        });
+
+        document.querySelector('.btn-primary').addEventListener('click', () => {
+            alert('Create Squad modal would open here');
+        });
+
+        // Animate stats on load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.progress-fill').forEach(fill => {
+                const width = fill.style.width;
+                fill.style.width = '0';
+                setTimeout(() => {
+                    fill.style.width = width;
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>

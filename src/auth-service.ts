@@ -425,13 +425,15 @@ export class AuthService {
       // return recoveredAddress.toLowerCase() === walletAddress.toLowerCase();
       
       // For now, we accept the signature if:
-      // 1. Wallet address is valid
-      // 2. Signature is valid hex format
+      // 1. Wallet address is valid (0x followed by 40 hex chars)
+      // 2. Signature is valid hex format (0x followed by at least 128 hex chars)
       // 3. Message is not empty
       
       const isValidWallet = /^0x[a-fA-F0-9]{40}$/.test(walletAddress);
-      const isValidSignature = /^0x[a-fA-F0-9]{130}$/.test(signature); // 65 bytes = 130 hex chars
+      const isValidSignature = /^0x[a-fA-F0-9]{128,}$/.test(signature); // At least 64 bytes (128 hex chars)
       const hasMessage = message && message.length > 0;
+
+      console.log('Wallet signature validation:', { isValidWallet, isValidSignature, hasMessage, walletLen: walletAddress.length, sigLen: signature.length });
 
       // In production, perform actual signature verification here
       // For now, basic validation only
