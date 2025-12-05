@@ -1957,37 +1957,6 @@ export class AuraAiServer extends McpHonoServerDO<Env> {
       }
     });
 
-    // Squad formation endpoint
-    app.post('/api/squad/create', async (c) => {
-      try {
-        const body = await c.req.json();
-        const { userId, squadName, roles, description } = body;
-
-        if (!userId || !squadName) {
-          return c.json({ error: 'Missing required fields' }, 400);
-        }
-
-        // Create squad in database
-        const squadId = `squad_${Date.now()}`;
-
-        return c.json({
-          success: true,
-          squadId,
-          squadName,
-          roles,
-          description,
-          chatUrl: `/squad/${squadId}/chat`,
-          inviteLinks: roles.map((role: any) => ({
-            role: role.title,
-            link: `/squad/${squadId}/invite/${role.title}`
-          }))
-        });
-      } catch (error) {
-        console.error('Squad creation error:', error);
-        return c.json({ error: 'Failed to create squad' }, 500);
-      }
-    });
-
     // User tokens endpoint
     app.get('/api/user/:userId/tokens', async (c) => {
       try {
@@ -3970,7 +3939,7 @@ export class AuraAiServer extends McpHonoServerDO<Env> {
             <div class="feed-header">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <div class="feed-title">Your Squads</div>
-                    <button class="btn btn-primary" onclick="window.openCreateSquadModal()" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                    <button class="btn btn-primary" onclick="console.log('Create Squad button clicked'); window.openCreateSquadModal()" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
                         <i class="fas fa-plus"></i> Create Squad
                     </button>
                 </div>
@@ -4605,8 +4574,15 @@ window.joinSquad = function(squadName) {
 
 /* Create Squad Modal and Functions */
 window.openCreateSquadModal = function() {
+  console.log('openCreateSquadModal called');
   var modal = document.getElementById('createSquadModal');
-  if (modal) modal.style.display = 'flex';
+  console.log('Modal element:', modal);
+  if (modal) {
+    modal.style.display = 'flex';
+    console.log('Modal displayed');
+  } else {
+    console.error('createSquadModal not found');
+  }
 };
 
 window.closeCreateSquadModal = function() {
@@ -4629,6 +4605,12 @@ window.createSquad = async function() {
 
   if (!desc) {
     alert('❌ Please enter a squad description');
+    return;
+  }
+
+  // Check if user is connected
+  if (!window.currentUser.address) {
+    alert('❌ Please connect your wallet first to create a squad');
     return;
   }
 
@@ -4731,7 +4713,7 @@ if (document.readyState === 'loading') {
 </script>
 
     <!-- CREATE SQUAD MODAL -->
-    <div id="createSquadModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 1000; align-items: center; justify-content: center; flex-direction: column;">
+    <div id="createSquadModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 1000; display: flex; align-items: center; justify-content: center; flex-direction: column;">
         <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 1rem; padding: 2rem; width: 90%; max-width: 500px; backdrop-filter: blur(10px);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                 <h2 style="color: var(--text); margin: 0;">Create New Squad</h2>

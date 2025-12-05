@@ -3,718 +3,1824 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura Squad - AI-Powered Team Collaboration</title>
+    <title>Aura AI - Transparent AI Collaboration & Token Rewards</title>
+    <meta name="description" content="Join the future of AI collaboration. Create squads, earn tokens, and collaborate with transparent AI agents powered by NullShot MCP framework.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #7c3aed;
+            --primary-light: #a78bfa;
+            --primary-dark: #5b21b6;
+            --secondary: #06b6d4;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border: #475569;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            color: #1a1a1a;
-            background: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--bg) 0%, #1a1f35 50%, #0f172a 100%);
+            color: var(--text);
+            overflow-x: hidden;
             line-height: 1.6;
         }
 
-        /* Navigation */
-        header {
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        nav {
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(124, 58, 237, 0.6); }
+        }
+
+        @keyframes textGlow {
+            from { filter: brightness(1); }
+            to { filter: brightness(1.2); }
+        }
+
+        @keyframes underline {
+            0%, 100% { transform: scaleX(0); }
+            50% { transform: scaleX(1); }
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatParticles {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-10px) rotate(120deg); }
+            66% { transform: translateY(5px) rotate(240deg); }
+        }
+
+        @keyframes particles {
+            0%, 100% {
+                background-position: 0% 0%, 100% 100%, 50% 50%;
+                opacity: 0.3;
+            }
+            50% {
+                background-position: 100% 100%, 0% 0%, 100% 100%;
+                opacity: 0.6;
+            }
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 0;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 1rem 2rem;
+            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #6366f1;
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        nav ul {
+        .nav-links {
             display: flex;
             gap: 2rem;
-            list-style: none;
+            align-items: center;
         }
 
-        nav a {
+        .nav-link {
+            color: var(--text-secondary);
             text-decoration: none;
-            color: #666;
-            transition: color 0.3s;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
-        nav a:hover {
-            color: #6366f1;
+        .nav-link:hover {
+            color: var(--primary-light);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
         }
 
         .cta-button {
-            background: #6366f1;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            padding: 0.7rem 1.5rem;
-            border-radius: 6px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
             text-decoration: none;
-            transition: background 0.3s;
-            border: none;
-            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
         }
 
         .cta-button:hover {
-            background: #4f46e5;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.5);
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
-            padding: 6rem 2rem;
-            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 40%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 60%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                radial-gradient(circle at 20% 80%, rgba(124, 58, 237, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(139, 92, 246, 0.2) 0%, transparent 50%);
+            animation: particles 20s ease-in-out infinite;
+        }
+
+        .floating-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: floatParticles 8s ease-in-out infinite;
+        }
+
+        .particle-1 {
+            width: 8px;
+            height: 8px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .particle-2 {
+            width: 6px;
+            height: 6px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .particle-3 {
+            width: 10px;
+            height: 10px;
+            top: 40%;
+            left: 60%;
+            animation-delay: 4s;
+        }
+
+        .particle-4 {
+            width: 4px;
+            height: 4px;
+            top: 80%;
+            left: 30%;
+            animation-delay: 6s;
+        }
+
+        .particle-5 {
+            width: 7px;
+            height: 7px;
+            top: 30%;
+            left: 90%;
+            animation-delay: 8s;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            animation: fadeInUp 1s ease-out 2s both;
+            cursor: pointer;
+        }
+
+        .scroll-mouse {
+            width: 24px;
+            height: 36px;
+            border: 2px solid var(--text-secondary);
+            border-radius: 12px;
+            position: relative;
+            opacity: 0.7;
+        }
+
+        .scroll-wheel {
+            width: 4px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 2px;
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scrollBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollBounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+            40% {
+                transform: translateX(-50%) translateY(8px);
+                opacity: 0.5;
+            }
+            60% {
+                transform: translateX(-50%) translateY(4px);
+                opacity: 0.8;
+            }
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
         }
 
         .hero-content {
-            max-width: 900px;
-            margin: 0 auto;
+            animation: fadeInLeft 1s ease-out;
         }
 
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .typing-text {
+            font-weight: 500;
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
             font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            position: relative;
         }
 
-        .hero p {
-            font-size: 1.25rem;
+        .gradient-text {
+            background: linear-gradient(135deg, var(--text), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textGlow 3s ease-in-out infinite alternate;
+        }
+
+        .highlight-text {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .highlight-text::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            border-radius: 2px;
+            animation: underline 2s ease-in-out infinite;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
             margin-bottom: 2rem;
-            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .accent-text {
+            color: var(--primary-light);
+            font-weight: 600;
+            position: relative;
+        }
+
+        .accent-text::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 1px;
+        }
+
+        .hero-features {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 0.75rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.2);
+        }
+
+        .feature-item i {
+            color: var(--primary-light);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 1s ease-out 0.3s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(6, 182, 212, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-item:hover::before {
+            opacity: 1;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-light);
+            display: block;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-number.counter {
+            animation: countUp 2s ease-out 0.5s both;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
         }
 
         .hero-buttons {
             display: flex;
             gap: 1rem;
-            justify-content: center;
             flex-wrap: wrap;
+            margin-bottom: 2rem;
         }
 
         .btn-primary {
-            background: white;
-            color: #6366f1;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
             padding: 1rem 2rem;
-            border-radius: 6px;
+            border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
-            transition: transform 0.3s;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out 0.4s both;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.5);
+        }
+
+        .btn-glow {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-primary:hover .btn-glow {
+            left: 100%;
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
         }
 
         .btn-secondary {
-            border: 2px solid white;
-            color: white;
-            padding: 0.9rem 1.9rem;
-            border-radius: 6px;
+            background: transparent;
+            color: var(--text);
+            padding: 1rem 2rem;
+            border: 2px solid var(--border);
+            border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: fadeInUp 1s ease-out 0.5s both;
         }
 
         .btn-secondary:hover {
-            background: rgba(255,255,255,0.1);
+            border-color: var(--primary);
+            color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .hero-trust {
+            margin-top: 2rem;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .trust-avatars {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .avatar-stack {
+            display: flex;
+            position: relative;
+        }
+
+        .avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: var(--glass);
+            border: 2px solid var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            position: relative;
+            margin-left: -0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .avatar:first-child {
+            margin-left: 0;
+        }
+
+        .avatar:hover {
+            transform: scale(1.1);
+            z-index: 1;
+        }
+
+        .trust-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .trust-text strong {
+            color: var(--primary-light);
+            font-weight: 600;
+        }
+
+        .hero-visual {
+            position: relative;
+            animation: fadeInRight 1s ease-out;
+        }
+
+        .hero-mockup {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .mockup-screen {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border: 2px solid var(--glass-border);
+            border-radius: 2rem;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        .mockup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .mockup-title {
+            font-weight: 600;
+            color: var(--primary-light);
+        }
+
+        .mockup-avatar {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .mockup-chat {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .chat-message {
+            padding: 1rem;
+            border-radius: 1rem;
+            font-size: 0.9rem;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        .chat-message.user {
+            background: var(--primary);
+            color: white;
+            align-self: flex-end;
+            max-width: 70%;
+        }
+
+        .chat-message.ai {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            align-self: flex-start;
+            max-width: 80%;
+        }
+
+        .chat-message.ai::before {
+            content: '🤖';
+            margin-right: 0.5rem;
         }
 
         /* Features Section */
         .features {
+            padding: 5rem 0;
+            background: var(--bg-secondary);
+        }
+
+        .features-container {
             max-width: 1200px;
-            margin: -3rem auto 4rem;
+            margin: 0 auto;
             padding: 0 2rem;
         }
 
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            margin-bottom: 0.5rem;
-            color: #1a1a1a;
-        }
-
-        .feature-card p {
-            color: #666;
-            font-size: 0.95rem;
-        }
-
-        /* AI Agent Section */
-        .ai-section {
-            background: white;
-            padding: 4rem 2rem;
-            margin: 3rem 0;
-        }
-
-        .ai-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .ai-text h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: #1a1a1a;
-        }
-
-        .ai-text p {
-            color: #666;
-            margin-bottom: 1rem;
-            line-height: 1.8;
-        }
-
-        .ai-features {
-            list-style: none;
-            margin: 2rem 0;
-        }
-
-        .ai-features li {
-            padding: 0.8rem 0;
-            color: #666;
-            padding-left: 2rem;
-            position: relative;
-        }
-
-        .ai-features li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #6366f1;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .ai-demo {
-            background: #f0f4ff;
-            padding: 2rem;
-            border-radius: 12px;
-            border-left: 4px solid #6366f1;
-        }
-
-        .ai-demo h4 {
-            color: #6366f1;
-            margin-bottom: 1rem;
-        }
-
-        .ai-demo code {
-            background: white;
-            padding: 1rem;
-            border-radius: 6px;
-            display: block;
-            overflow-x: auto;
-            font-size: 0.85rem;
-            color: #666;
-        }
-
-        /* Use Cases Section */
-        .use-cases {
-            background: #f8f9fa;
-            padding: 4rem 2rem;
-        }
-
-        .use-cases-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .use-cases h2 {
+        .section-header {
             text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .use-case-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .use-case {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            border-top: 3px solid #6366f1;
-        }
-
-        .use-case h3 {
-            margin-bottom: 1rem;
-            color: #1a1a1a;
-        }
-
-        .use-case p {
-            color: #666;
-            margin-bottom: 1rem;
-        }
-
-        .use-case .benefit {
-            background: #f0f4ff;
-            padding: 0.8rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            color: #6366f1;
-            margin-top: 1rem;
-        }
-
-        /* Stats Section */
-        .stats {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
-            padding: 4rem 2rem;
-        }
-
-        .stats-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            text-align: center;
-        }
-
-        .stat {
-            padding: 1.5rem;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            opacity: 0.9;
-            font-size: 0.95rem;
-        }
-
-        /* Pricing Section */
-        .pricing {
-            padding: 4rem 2rem;
-        }
-
-        .pricing-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .pricing h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .pricing-card {
-            background: white;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .pricing-card.featured {
-            border-color: #6366f1;
-            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
-            transform: scale(1.05);
-        }
-
-        .pricing-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .price {
-            font-size: 2.5rem;
-            color: #6366f1;
-            font-weight: bold;
-            margin: 1.5rem 0;
-        }
-
-        .price-period {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .pricing-features {
-            list-style: none;
-            text-align: left;
-            margin: 2rem 0;
-            color: #666;
-        }
-
-        .pricing-features li {
-            padding: 0.8rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .pricing-features li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #6366f1;
-            font-weight: bold;
-        }
-
-        /* Footer */
-        footer {
-            background: #1a1a1a;
-            color: white;
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: #999;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .ai-content {
-                grid-template-columns: 1fr;
-            }
-
-            nav ul {
-                gap: 1rem;
-                font-size: 0.9rem;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-            }
-
-            .btn-primary, .btn-secondary {
-                width: 100%;
-            }
+            margin-bottom: 4rem;
         }
 
         .section-title {
             font-size: 2.5rem;
-            margin-bottom: 3rem;
-            text-align: center;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .container {
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(6, 182, 212, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.2);
+            border-color: var(--primary);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .feature-highlight {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .highlight-badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+        }
+
+        /* Social Proof */
+        .social-proof {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--bg), var(--bg-secondary));
+        }
+
+        .social-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
+            text-align: center;
+        }
+
+        .social-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            color: var(--text);
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .social-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 1s ease-out both;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(6, 182, 212, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(124, 58, 237, 0.2);
+            border-color: var(--primary);
+        }
+
+        .social-card:hover::before {
+            opacity: 1;
+        }
+
+        .social-avatar {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin: 0 auto 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .social-card:hover .social-avatar {
+            transform: scale(1.1);
+        }
+
+        .social-name {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .social-role {
+            color: var(--primary-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .social-quote {
+            color: var(--text-secondary);
+            font-style: italic;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .social-rating {
+            display: flex;
+            justify-content: center;
+            gap: 0.25rem;
+        }
+
+        .social-rating i {
+            color: #fbbf24;
+            font-size: 0.9rem;
+        }
+
+        .social-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-light);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-title {
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .cta-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .cta .hero-buttons {
+            justify-content: center;
+        }
+
+        .cta .btn-primary {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta .btn-primary:hover {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta .btn-secondary {
+            border-color: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .cta .btn-secondary:hover {
+            border-color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 0;
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--text);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-light);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .social-link:hover {
+            color: var(--primary-light);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .social-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        /* Scroll animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .animate-on-scroll.animate {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <nav>
-            <div class="logo">🚀 Aura Squad</div>
-            <ul>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#ai-agent">AI Agent</a></li>
-                <li><a href="#use-cases">Use Cases</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-            </ul>
-            <button class="cta-button" onclick="window.location.href='/dashboard'">Dashboard</button>
-        </nav>
-    </header>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Aura AI</div>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#social" class="nav-link">Community</a>
+                <a href="/chat" class="nav-link">Try Demo</a>
+                <a href="https://github.com/KezzyNgotho/Aura-ai" class="cta-button">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+        </div>
+    </nav>
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-content">
-            <h1>🤖 AI-Powered Team Collaboration</h1>
-            <p>Form squads instantly. Collaborate seamlessly. Earn rewards automatically. Powered by intelligent AI agents.</p>
+        <div class="floating-particles">
+            <div class="particle particle-1"></div>
+            <div class="particle particle-2"></div>
+            <div class="particle particle-3"></div>
+            <div class="particle particle-4"></div>
+            <div class="particle particle-5"></div>
+        </div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge animate-pulse">
+                    <i class="fas fa-sparkles"></i>
+                    <span class="typing-text">Powered by NullShot MCP Framework</span>
+                </div>
+                <h1 class="hero-title">
+                    <span class="gradient-text">AI Agents</span> That Think<br>
+                    <span class="highlight-text">Out Loud</span> With You
+                </h1>
+                <p class="hero-subtitle">
+                    Experience the future of human-AI collaboration. Form intelligent squads, earn crypto rewards,
+                    and watch AI agents reveal their complete reasoning process in real-time.
+                    <span class="accent-text">No more black boxes.</span>
+                </p>
+
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <i class="fas fa-brain"></i>
+                        <span>Transparent Reasoning</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-users"></i>
+                        <span>Smart Squad Formation</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-coins"></i>
+                        <span>Blockchain Rewards</span>
+                    </div>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number counter" data-target="10000">0</span>
+                        <span class="stat-label">AI Insights Generated</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number counter" data-target="500">0</span>
+                        <span class="stat-label">Active Squads</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number counter" data-target="50000">0</span>
+                        <span class="stat-label">$ Tokens Distributed</span>
+                    </div>
+                </div>
+
+                <div class="hero-buttons">
+                    <a href="/chat" class="btn-primary pulse-animation">
+                        <i class="fas fa-rocket"></i>
+                        <span>Start Collaborating</span>
+                        <div class="btn-glow"></div>
+                    </a>
+                    <a href="#features" class="btn-secondary">
+                        <i class="fas fa-play"></i>
+                        <span>Watch Demo</span>
+                    </a>
+                </div>
+
+                <div class="hero-trust">
+                    <div class="trust-avatars">
+                        <div class="avatar-stack">
+                            <div class="avatar">👨‍💻</div>
+                            <div class="avatar">👩‍🔬</div>
+                            <div class="avatar">👨‍🎨</div>
+                            <div class="avatar">👩‍🚀</div>
+                        </div>
+                        <span class="trust-text">
+                            <strong>2,500+</strong> innovators already building with Aura AI
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-mockup">
+                    <div class="mockup-screen">
+                        <div class="mockup-header">
+                            <div class="mockup-title">🚀 AI Startup Incubator</div>
+                            <div class="mockup-avatar">JD</div>
+                        </div>
+                        <div class="mockup-chat">
+                            <div class="chat-message user">
+                                "AI, analyze our startup idea"
+                            </div>
+                            <div class="chat-message ai">
+                                <strong>Analyzing market data...</strong><br><br>
+                                Based on 50,000+ voice assistants in the market:<br>
+                                • Your unique advantage: Multi-modal AI collaboration<br>
+                                • Market opportunity: $15B by 2026<br>
+                                • Competitive moat: Transparent reasoning<br><br>
+                                <em>Recommendation: Strong potential with 78% success probability</em>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="features-container">
+            <div class="section-header">
+                <h2 class="section-title">Revolutionary AI Collaboration</h2>
+                <p class="section-subtitle">
+                    Experience the future of teamwork where AI agents collaborate transparently with humans,
+                    powered by cutting-edge blockchain technology and rewarded with real tokens.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="feature-title">Transparent AI Reasoning</h3>
+                    <p class="feature-description">
+                        Unlike black-box AI, Aura AI shows complete reasoning for every decision.
+                        Understand how AI agents think and collaborate with confidence.
+                    </p>
+                    <div class="feature-highlight">
+                        <span class="highlight-badge">Revolutionary</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="feature-title">Intelligent Squad Formation</h3>
+                    <p class="feature-description">
+                        AI-powered squad optimization suggests the perfect team composition.
+                        Form collaborative groups with complementary skills and shared goals.
+                    </p>
+                    <div class="feature-highlight">
+                        <span class="highlight-badge">Smart Matching</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3 class="feature-title">Voice-Powered Collaboration</h3>
+                    <p class="feature-description">
+                        Real-time voice chat with AI assistance. Discuss ideas naturally while
+                        receiving intelligent insights and recommendations.
+                    </p>
+                    <div class="feature-highlight">
+                        <span class="highlight-badge">Real-time</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3 class="feature-title">Blockchain Token Rewards</h3>
+                    <p class="feature-description">
+                        Earn AURA tokens for contributions. Multiple distribution algorithms
+                        ensure fair rewards based on activity, contribution, and impact.
+                    </p>
+                    <div class="feature-highlight">
+                        <span class="highlight-badge">Crypto Rewards</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Web3 Authentication</h3>
+                    <p class="feature-description">
+                        Secure MetaMask wallet integration. Own your data and identity
+                        in the decentralized future of collaboration.
+                    </p>
+                    <div class="feature-highlight">
+                        <span class="highlight-badge">Decentralized</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="feature-title">NullShot MCP Framework</h3>
+                    <p class="feature-description">
+                        Built on industry-standard Model Context Protocol. Advanced AI agent
+                        coordination with testing utilities and seamless integration.
+                    </p>
+                    <div class="feature-highlight">
+                        <span class="highlight-badge">Enterprise-grade</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section id="social" class="social-proof">
+        <div class="social-container">
+            <h2 class="social-title">Join the AI Collaboration Revolution</h2>
+
+            <div class="social-grid">
+                <div class="social-card">
+                    <div class="social-avatar">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="social-name">Sarah Chen</div>
+                    <div class="social-role">Startup Founder</div>
+                    <div class="social-quote">
+                        "Aura AI transformed how we build our AI startup. The transparent reasoning
+                        gave us confidence in AI recommendations, and the token rewards kept our team motivated."
+                    </div>
+                    <div class="social-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="social-card">
+                    <div class="social-avatar">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="social-name">Marcus Rodriguez</div>
+                    <div class="social-role">AI Researcher</div>
+                    <div class="social-quote">
+                        "Finally, an AI platform that shows its work! The MCP framework enables
+                        true collaboration between humans and AI agents. Game-changing for research teams."
+                    </div>
+                    <div class="social-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="social-card">
+                    <div class="social-avatar">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                    <div class="social-name">Emily Watson</div>
+                    <div class="social-role">Product Manager</div>
+                    <div class="social-quote">
+                        "Our development velocity increased 3x with AI squad assistance.
+                        The voice features make collaboration feel natural, and earning tokens for contributions is addictive!"
+                    </div>
+                    <div class="social-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="social-card">
+                    <div class="social-avatar">
+                        <i class="fas fa-user-astronaut"></i>
+                    </div>
+                    <div class="social-name">David Kim</div>
+                    <div class="social-role">Blockchain Developer</div>
+                    <div class="social-quote">
+                        "The Web3 integration is seamless. Earning tokens for real contributions
+                        creates genuine incentives for collaboration. This is the future of work."
+                    </div>
+                    <div class="social-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-stats">
+                <div class="stat-item">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Active Squads</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">10K+</span>
+                    <span class="stat-label">AI Insights Generated</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">$50K+</span>
+                    <span class="stat-label">Tokens Distributed</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">98%</span>
+                    <span class="stat-label">User Satisfaction</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="cta-container">
+            <h2 class="cta-title">Ready to Transform Your Collaboration?</h2>
+            <p class="cta-subtitle">
+                Join thousands of innovators building the future with transparent AI assistance.
+                Create your first squad and start earning tokens today.
+            </p>
             <div class="hero-buttons">
-                <a href="/dashboard" class="btn-primary">Get Started Free</a>
-                <a href="#ai-agent" class="btn-secondary">Learn More</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Feature Cards -->
-    <section class="features">
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon">👥</div>
-                <h3>Instant Squads</h3>
-                <p>Form collaborative teams in seconds. Invite members, assign roles, start collaborating immediately.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">💬</div>
-                <h3>Real-Time Chat</h3>
-                <p>Communicate with your team in real-time. Share files, react with emojis, build team culture with memes.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🤖</div>
-                <h3>Intelligent Agent</h3>
-                <p>AI analyzes contributions, optimizes rewards, predicts success, and recommends improvements automatically.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">💰</div>
-                <h3>Auto Rewards</h3>
-                <p>Earn tokens for every action. AI optimizes fair distribution based on quality, effort, and impact.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>Smart Analytics</h3>
-                <p>Track squad health, member contributions, productivity metrics, and earnings in real-time.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⛓️</div>
-                <h3>On-Chain Settlement</h3>
-                <p>Transparent, trustless payments on smart contracts. Withdraw anytime to fiat or crypto.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- AI Agent Section -->
-    <section class="ai-section" id="ai-agent">
-        <div class="ai-content">
-            <div class="ai-text">
-                <h2>Meet Your Intelligent Agent</h2>
-                <p>Aura Squad's AI agent understands your team better than you do. It continuously learns from contributions, analyzes patterns, and provides insights that help you succeed.</p>
-                
-                <h4 style="margin-top: 2rem; margin-bottom: 1rem; color: #1a1a1a;">What the AI Agent Does:</h4>
-                <ul class="ai-features">
-                    <li><strong>Squad Health Analysis</strong> - Identifies issues, suggests improvements, calculates health score</li>
-                    <li><strong>Member Profiling</strong> - Analyzes skills, detects specializations, recommends optimal roles</li>
-                    <li><strong>Smart Matching</strong> - Finds perfect team members for your squad based on skills & experience</li>
-                    <li><strong>Reward Optimization</strong> - Ensures fair payment distribution based on quality & effort</li>
-                    <li><strong>Success Prediction</strong> - Forecasts squad success probability and recommends actions</li>
-                </ul>
-            </div>
-
-            <div class="ai-demo">
-                <h4>💡 AI Agent in Action</h4>
-                <code>
-# Analyze your squad health
-POST /api/ai/squad/squad-123/health
-
-Response:
-{
-  "healthScore": 78,
-  "productivity": 75%,
-  "issues": ["User456 inactive"],
-  "suggestions": [
-    "Onboard User456 with a task",
-    "Promote contributor to assistant"
-  ]
-}
-
-# Optimize rewards
-POST /api/ai/squad/squad-123/optimize-rewards
-{
-  "totalReward": 500
-}
-
-Result: 14% efficiency gain through
-intelligent distribution
-                </code>
-            </div>
-        </div>
-    </section>
-
-    <!-- Use Cases Section -->
-    <section class="use-cases" id="use-cases">
-        <div class="use-cases-content">
-            <h2 class="section-title">Why Teams Love Aura Squad</h2>
-            <div class="use-case-grid">
-                <div class="use-case">
-                    <h3>🚀 Startups</h3>
-                    <p>Assemble founding teams instantly. Collaborate with advisors. Fair equity distribution through smart contracts.</p>
-                    <div class="benefit">Save $50k/month on hiring overhead</div>
-                </div>
-
-                <div class="use-case">
-                    <h3>🎨 Creators</h3>
-                    <p>Form production squads for content. Manage team earnings transparently. Grow your empire 10x faster.</p>
-                    <div class="benefit">200-400x cost savings vs hiring</div>
-                </div>
-
-                <div class="use-case">
-                    <h3>💼 Consultants</h3>
-                    <p>Build expert squads for projects. Take on bigger clients. Scale without hiring.</p>
-                    <div class="benefit">9x earnings growth through collaboration</div>
-                </div>
-
-                <div class="use-case">
-                    <h3>🎓 Students</h3>
-                    <p>Collaborate on projects. Learn from experts. Earn money while studying.</p>
-                    <div class="benefit">Build real portfolio & get paid</div>
-                </div>
-
-                <div class="use-case">
-                    <h3>🤖 AI Agents</h3>
-                    <p>Deploy agents as squad members. They learn from humans and each other. Autonomous teams.</p>
-                    <div class="benefit">Next generation of work collaboration</div>
-                </div>
-
-                <div class="use-case">
-                    <h3>🌍 Freelancers</h3>
-                    <p>Team up on larger projects. Share workload. Increase hourly rate through specialization.</p>
-                    <div class="benefit">5-10x productivity improvement</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats">
-        <div class="stats-content">
-            <div class="stat">
-                <div class="stat-number">65T</div>
-                <div class="stat-label">Total Addressable Market</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number">0ms</div>
-                <div class="stat-label">Squad Formation Time</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number">400x</div>
-                <div class="stat-label">Cost Savings Potential</div>
-            </div>
-            <div class="stat">
-                <div class="stat-number">99.99%</div>
-                <div class="stat-label">Uptime Guarantee</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section class="pricing" id="pricing">
-        <div class="pricing-content">
-            <h2>Simple, Transparent Pricing</h2>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3>Starter</h3>
-                    <div class="price">Free</div>
-                    <div class="price-period">Forever</div>
-                    <ul class="pricing-features">
-                        <li>Create 1 squad</li>
-                        <li>Up to 5 members</li>
-                        <li>Basic chat</li>
-                        <li>Community support</li>
-                    </ul>
-                    <button class="cta-button" style="width: 100%;">Get Started</button>
-                </div>
-
-                <div class="pricing-card featured">
-                    <h3>Pro</h3>
-                    <div class="price">20%</div>
-                    <div class="price-period">Commission on earnings</div>
-                    <ul class="pricing-features">
-                        <li>Unlimited squads</li>
-                        <li>Unlimited members</li>
-                        <li>AI agent features</li>
-                        <li>Smart matching</li>
-                        <li>Reward optimization</li>
-                        <li>Health analytics</li>
-                        <li>Priority support</li>
-                    </ul>
-                    <button class="cta-button" style="width: 100%;">Start Free Trial</button>
-                </div>
-
-                <div class="pricing-card">
-                    <h3>Enterprise</h3>
-                    <div class="price">Custom</div>
-                    <div class="price-period">Based on volume</div>
-                    <ul class="pricing-features">
-                        <li>Everything in Pro</li>
-                        <li>Custom branding</li>
-                        <li>API access</li>
-                        <li>Dedicated support</li>
-                        <li>SLA guarantee</li>
-                    </ul>
-                    <button class="cta-button" style="width: 100%;">Contact Sales</button>
-                </div>
+                <a href="/chat" class="btn-primary">
+                    <i class="fas fa-rocket"></i> Start Building Now
+                </a>
+                <a href="https://github.com/KezzyNgotho/Aura-ai" class="btn-secondary">
+                    <i class="fab fa-github"></i> View Source Code
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <h3 style="margin-bottom: 2rem;">🚀 Aura Squad</h3>
-            <div class="footer-links">
-                <a href="#">About</a>
-                <a href="#">Blog</a>
-                <a href="#">Docs</a>
-                <a href="#">GitHub</a>
-                <a href="#">Twitter</a>
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Aura AI</h3>
+                <p>Transparent AI collaboration powered by NullShot MCP framework.
+                Building the future of human-AI teamwork with blockchain rewards.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                </div>
             </div>
-            <p>&copy; 2025 Aura Squad. Built for the future of collaborative work.</p>
-            <p style="margin-top: 1rem; opacity: 0.7;">Live on Cloudflare Workers | Powered by AI | Secured by Smart Contracts</p>
+
+            <div class="footer-section">
+                <h3>Platform</h3>
+                <div class="footer-links">
+                    <a href="/chat" class="footer-link">Try Demo</a>
+                    <a href="#features" class="footer-link">Features</a>
+                    <a href="#social" class="footer-link">Community</a>
+                    <a href="https://docs.aura-ai.com" class="footer-link">Documentation</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Technology</h3>
+                <div class="footer-links">
+                    <a href="https://nullshot.ai" class="footer-link">NullShot MCP</a>
+                    <a href="https://modelcontextprotocol.io" class="footer-link">MCP Protocol</a>
+                    <a href="https://workers.cloudflare.com" class="footer-link">Cloudflare Workers</a>
+                    <a href="https://base.org" class="footer-link">Base Chain</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Support</h3>
+                <div class="footer-links">
+                    <a href="mailto:support@aura-ai.com" class="footer-link">Contact Us</a>
+                    <a href="/privacy" class="footer-link">Privacy Policy</a>
+                    <a href="/terms" class="footer-link">Terms of Service</a>
+                    <a href="/faq" class="footer-link">FAQ</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Aura AI. Built with ❤️ using NullShot MCP Framework, Cloudflare Workers, and Ethereum.</p>
         </div>
     </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animate on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        // Add animation classes to elements
+        document.querySelectorAll('.feature-card, .social-card').forEach((el, index) => {
+            el.classList.add('animate-on-scroll');
+            el.style.animationDelay = `${index * 0.1}s`;
+            observer.observe(el);
+        });
+
+        // Typing animation for hero subtitle
+        const heroSubtitle = document.querySelector('.hero-subtitle');
+        if (heroSubtitle) {
+            const text = heroSubtitle.textContent;
+            heroSubtitle.textContent = '';
+            let i = 0;
+
+            function typeWriter() {
+                if (i < text.length) {
+                    heroSubtitle.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 30);
+                }
+            }
+
+            // Start typing animation after a delay
+            setTimeout(typeWriter, 1000);
+        }
+
+        // Counter animation for stats
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    if (target >= 1000) {
+                        element.textContent = target.toLocaleString();
+                    } else {
+                        element.textContent = target;
+                    }
+                    clearInterval(timer);
+                } else {
+                    if (target >= 1000) {
+                        element.textContent = Math.floor(current).toLocaleString();
+                    } else {
+                        element.textContent = Math.floor(current);
+                    }
+                }
+            }, 20);
+        }
+
+        // Animate stats when they come into view
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number.counter');
+                    statNumbers.forEach(stat => {
+                        const target = parseInt(stat.getAttribute('data-target') || '0');
+                        if (!isNaN(target) && !stat.hasAttribute('data-animated')) {
+                            stat.setAttribute('data-animated', 'true');
+                            animateCounter(stat, target);
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.hero-stats').forEach(stat => {
+            statsObserver.observe(stat);
+        });
+
+        // Enhanced particle effect for hero background
+        function createParticles() {
+            const hero = document.querySelector('.hero');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'floating-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+
+                // Random particle types
+                const particleTypes = ['✨', '⚡', '🌟', '💫', '🔮', '🎯', '🚀', '💎'];
+                particle.textContent = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+
+                hero.appendChild(particle);
+            }
+        }
+
+        // Add floating particle styles
+        const particleStyle = document.createElement('style');
+        particleStyle.textContent = `
+            .floating-particle {
+                position: absolute;
+                font-size: ${Math.random() * 20 + 10}px;
+                opacity: 0.1;
+                pointer-events: none;
+                animation: floatParticles 15s ease-in-out infinite;
+                z-index: 1;
+            }
+        `;
+        document.head.appendChild(particleStyle);
+
+        createParticles();
+
+        // Typing effect for badge
+        function typeWriter(element, text, speed = 50) {
+            let i = 0;
+            element.textContent = '';
+
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+
+            setTimeout(type, 1000);
+        }
+
+        // Start typing animation
+        const typingElement = document.querySelector('.typing-text');
+        if (typingElement) {
+            typeWriter(typingElement, 'Powered by NullShot MCP Framework');
+        }
+
+        // Dynamic gradient animation with more colors
+        let hue = 0;
+        setInterval(() => {
+            hue = (hue + 1) % 360;
+            const gradientElements = document.querySelectorAll('[style*="linear-gradient"]');
+            gradientElements.forEach(el => {
+                const style = el.getAttribute('style');
+                if (style && style.includes('var(--primary)')) {
+                    el.style.filter = `hue-rotate(${hue}deg)`;
+                }
+            });
+
+            // Animate hero background
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.background = `linear-gradient(135deg, hsl(${hue}, 20%, 12%) 0%, hsl(${hue + 60}, 15%, 18%) 50%, hsl(${hue + 120}, 10%, 8%) 100%)`;
+            }
+        }, 50);
+
+        // Add hover effects to feature items
+        document.querySelectorAll('.feature-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Add click ripple effect to buttons
+        document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.left = (e.offsetX - 10) + 'px';
+                ripple.style.top = (e.offsetY - 10) + 'px';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+
+                this.appendChild(ripple);
+
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add ripple animation
+        const rippleStyle = document.createElement('style');
+        rippleStyle.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(rippleStyle);
+    </script>
 </body>
 </html>
